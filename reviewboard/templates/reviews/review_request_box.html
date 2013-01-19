@@ -29,7 +29,9 @@
    {% endblocktrans %}
   {% endif %}
   {% endwith %}
+  by <a id="submitter" class="user" href="{% url user review_request.submitter %}">{{review_request.submitter|user_displayname}}</a>
   </p>
+
  </div>
  <div id="details">
   <div id="review-request-warning"></div>
@@ -39,10 +41,6 @@
     <col width="0%" />
     <col width="100%" />
    </colgroup>
-   <tr>
-    <th class="label"><label for="submitter">{% trans "Submitter" %}:</label></th>
-    <td class="value"><a id="submitter" class="user" href="{% url user review_request.submitter %}">{{review_request.submitter|user_displayname}}</a></td>
-   </tr>
    <tr>
     <th class="label"><label for="branch">{% trans "Branch" %}:</label></th>
     <td class="value" id="branch-value-cell"><span id="branch" class="editable">{{review_request_details.branch|safe}}</span></td>
@@ -56,6 +54,14 @@
 {%   endwith %}
 {%  endfor %}
 {% endspaceless %}</span></td>
+   </tr>
+   <tr>
+    <th class="label"><label for="depends">{% trans "Depends" %}:</label></th>
+    <td class="value" id="depends-value-cell"><span id="depends" class="editable"></span></td>
+   </tr>
+   <tr>
+    <th class="label"><label for="blocks">{% trans "Blocks" %}:</label></th>
+    <td class="value" id="blocks-value-cell"><span id="blocks" class="editable"></span></td>
    </tr>
 
 {% if review_request.changenum %}
