@@ -100,6 +100,30 @@ class Group(models.Model):
         ordering = ['name']
 
 
+class DraftDependsOn(models.Model):
+    draft = models.ForeignKey('ReviewRequestDraft')
+    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
+                                        blank = True, null = True, 
+                                        verbose_name = "request dependencies",
+                                        related_name = "draft to draft")
+    depends_on_published = models.ManyToManyField('ReviewRequest',
+                                        blank = True, null = True, 
+                                        verbose_name = "request dependencies",
+                                        related_name = "draft to published")
+
+
+class PublishedDependsOn(models.Model):
+    published = models.ForeignKey('ReviewRequest')
+    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
+                                    blank = True, null = True, 
+                                    verbose_name = "request dependencies",
+                                    related_name = "published to draft")
+    depends_on_published = models.ManyToManyField('ReviewRequest',
+                                    blank = True, null = True, 
+                                    verbose_name = "request dependencies",
+                                    related_name = "published to published")
+
+
 class DefaultReviewer(models.Model):
     """
     A default reviewer entry automatically adds default reviewers to a
