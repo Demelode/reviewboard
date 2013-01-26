@@ -232,6 +232,14 @@ class BaseReviewRequestDetails(models.Model):
     testing_done = models.TextField(_("testing done"), blank=True)
     bugs_closed = models.CharField(_("bugs"), max_length=300, blank=True)
     branch = models.CharField(_("branch"), max_length=300, blank=True)
+    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
+                                        blank = True, null = True, 
+                                        verbose_name = "request dependencies",
+                                        related_name = "depends on draft")
+    depends_on_published = models.ManyToManyField('ReviewRequest',
+                                        blank = True, null = True, 
+                                        verbose_name = "request dependencies",
+                                        related_name = "depends on published")
 
     def _get_review_request(self):
         raise NotImplementedError
@@ -502,15 +510,6 @@ class ReviewRequest(BaseReviewRequestDetails):
         verbose_name=_("change descriptions"),
         related_name="review_request",
         blank=True)
-
-    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
-                                    blank = True, null = True, 
-                                    verbose_name = "request dependencies",
-                                    related_name = "published to draft")
-    depends_on_published = models.ManyToManyField('ReviewRequest',
-                                    blank = True, null = True, 
-                                    verbose_name = "request dependencies",
-                                    related_name = "published to published")
 
     # Review-related information
 
@@ -1064,15 +1063,6 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
         verbose_name=_("inactive files"),
         related_name="inactive_drafts",
         blank=True)
-
-    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
-                                        blank = True, null = True, 
-                                        verbose_name = "request dependencies",
-                                        related_name = "draft to draft")
-    depends_on_published = models.ManyToManyField('ReviewRequest',
-                                        blank = True, null = True, 
-                                        verbose_name = "request dependencies",
-                                        related_name = "draft to published")
 
     submitter = property(lambda self: self.review_request.submitter)
     repository = property(lambda self: self.review_request.repository)
