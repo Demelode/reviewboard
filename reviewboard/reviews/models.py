@@ -100,30 +100,6 @@ class Group(models.Model):
         ordering = ['name']
 
 
-class DraftDependsOn(models.Model):
-    draft = models.ForeignKey('ReviewRequestDraft')
-    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
-                                        blank = True, null = True, 
-                                        verbose_name = "request dependencies",
-                                        related_name = "draft to draft")
-    depends_on_published = models.ManyToManyField('ReviewRequest',
-                                        blank = True, null = True, 
-                                        verbose_name = "request dependencies",
-                                        related_name = "draft to published")
-
-
-class PublishedDependsOn(models.Model):
-    published = models.ForeignKey('ReviewRequest')
-    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
-                                    blank = True, null = True, 
-                                    verbose_name = "request dependencies",
-                                    related_name = "published to draft")
-    depends_on_published = models.ManyToManyField('ReviewRequest',
-                                    blank = True, null = True, 
-                                    verbose_name = "request dependencies",
-                                    related_name = "published to published")
-
-
 class DefaultReviewer(models.Model):
     """
     A default reviewer entry automatically adds default reviewers to a
@@ -526,6 +502,15 @@ class ReviewRequest(BaseReviewRequestDetails):
         verbose_name=_("change descriptions"),
         related_name="review_request",
         blank=True)
+
+    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
+                                    blank = True, null = True, 
+                                    verbose_name = "request dependencies",
+                                    related_name = "published to draft")
+    depends_on_published = models.ManyToManyField('ReviewRequest',
+                                    blank = True, null = True, 
+                                    verbose_name = "request dependencies",
+                                    related_name = "published to published")
 
     # Review-related information
 
@@ -1079,6 +1064,15 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
         verbose_name=_("inactive files"),
         related_name="inactive_drafts",
         blank=True)
+
+    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
+                                        blank = True, null = True, 
+                                        verbose_name = "request dependencies",
+                                        related_name = "draft to draft")
+    depends_on_published = models.ManyToManyField('ReviewRequest',
+                                        blank = True, null = True, 
+                                        verbose_name = "request dependencies",
+                                        related_name = "draft to published")
 
     submitter = property(lambda self: self.review_request.submitter)
     repository = property(lambda self: self.review_request.repository)
