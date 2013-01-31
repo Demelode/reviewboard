@@ -234,12 +234,10 @@ class BaseReviewRequestDetails(models.Model):
     branch = models.CharField(_("branch"), max_length=300, blank=True)
     depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
                                         blank = True, null = True, 
-                                        verbose_name = "request dependencies",
-                                        related_name = "depends on draft")
+                                        verbose_name = _("request dependencies"))
     depends_on_published = models.ManyToManyField('ReviewRequest',
                                         blank = True, null = True, 
-                                        verbose_name = "request dependencies",
-                                        related_name = "depends on published")
+                                        verbose_name = _("request dependencies"))
 
     def _get_review_request(self):
         raise NotImplementedError
