@@ -3911,6 +3911,18 @@ class ReviewRequestDraftResource(WebAPIResource):
             'type': str,
             'description': 'The new testing done text.',
         },
+        'depends_on_drafts': {
+            'type': str,
+            'description': 'A comma-separated list of draft review '
+                           'requests that the current request is '
+                           'dependent upon.',
+        },
+        'depends_on_published': {
+            'type': str,
+            'description': 'A comma-separated list of review '
+                           'requests that the current request is '
+                           'dependent upon.',
+        },
     }
 
     allowed_methods = ('GET', 'POST', 'PUT', 'DELETE')
@@ -3995,6 +4007,18 @@ class ReviewRequestDraftResource(WebAPIResource):
                 'type': str,
                 'description': 'The new testing done text.',
             },
+            'depends_on_drafts': {
+            'type': str,
+            'description': 'A comma-separated list of draft review '
+                           'requests that the current request is '
+                           'dependent upon.',
+            },
+            'depends_on_published': {
+                'type': str,
+                'description': 'A comma-separated list of review '
+                               'requests that the current request is '
+                               'dependent upon.',
+            },
         },
     )
     def create(self, *args, **kwargs):
@@ -4056,6 +4080,18 @@ class ReviewRequestDraftResource(WebAPIResource):
             'testing_done': {
                 'type': str,
                 'description': 'The new testing done text.',
+            },
+             'depends_on_drafts': {
+            'type': str,
+            'description': 'A comma-separated list of draft review '
+                           'requests that the current request is '
+                           'dependent upon.',
+            },
+            'depends_on_published': {
+                'type': str,
+                'description': 'A comma-separated list of review '
+                               'requests that the current request is '
+                               'dependent upon.',
             },
         },
     )
@@ -4175,7 +4211,7 @@ class ReviewRequestDraftResource(WebAPIResource):
         modified_objects = []
         invalid_entries = []
 
-        if field_name in ('target_groups', 'target_people'):
+        if field_name in ('target_groups', 'target_people', 'depends_on_drafts', 'depends_on_published'):
             values = re.split(r",\s*", data)
             target = getattr(draft, field_name)
             target.clear()
@@ -4195,6 +4231,9 @@ class ReviewRequestDraftResource(WebAPIResource):
                     elif field_name == "target_people":
                         obj = self._find_user(username=value,
                                               local_site=local_site)
+                    elif field_name in ('depends_on_drafts', 'depends_on_published'):
+                        obj = self._find_review_request(review_request_id=value,
+                                              local_site_name=local_site)
 
                     target.add(obj)
                 except:

@@ -56,8 +56,19 @@
 {% endspaceless %}</span></td>
    </tr>
    <tr>
-    <th class="label"><label for="depends">{% trans "Depends" %}:</label></th>
-    <td class="value" id="depends-value-cell"><span id="depends" class="editable comma-editable"></span></td>
+    <th class="label"><label for="depends">{% trans "Depends On" %}:</label></th>
+    <td class="value" id="depends-value-cell"><span id="depends" class="editable comma-editable">
+      {% spaceless %}
+        {%  for draftdependency in review_request_details.depends_on_drafts.all %}
+          <a href="test"></a>
+          {% if not forloop.last %}, {% endif %}
+        {%  endfor %}
+        {%  for dependency in review_request_details.depends_on_published.all %}
+          <a href="test"></a>
+          {% if not forloop.last %}, {% endif %}
+        {%  endfor %}
+      {% endspaceless %}
+    </span></td>
    </tr>
    <tr>
     <th class="label"><label for="blocks">{% trans "Blocks" %}:</label></th>
