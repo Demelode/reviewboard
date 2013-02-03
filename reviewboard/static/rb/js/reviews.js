@@ -49,7 +49,9 @@ var gEditorCompleteHandlers = {
             .user_infobox();
     },
     'description': linkifyText,
-    'testing_done': linkifyText
+    'testing_done': linkifyText,
+    'depends_on_drafts': linkifyText,
+    'depends_on_published': linkifyText
 };
 
 

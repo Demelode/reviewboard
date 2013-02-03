@@ -364,6 +364,30 @@ class PeopleColumn(Column):
         return reduce(lambda a, d: a + d.username + ' ', people, '')
 
 
+class DependsOnDraftColumn(Column):
+    def __init__(self, *args, **kwargs):
+        Column.__init__(self, *args, **kwargs)
+        self.label = _("DependsDraft")
+        self.detailed_label = _("Depends On Draft")
+        self.sortable = False
+        self.shrink = False
+
+    def render_data(self, review_request):
+        drafts = review_request.depends_on_drafts.all()
+        return reduce(lambda a, d: a + d + ' ', drafts, '')
+
+class DependsOnPublishedColumn(Column):
+    def __init__(self, *args, **kwargs):
+        Column.__init__(self, *args, **kwargs)
+        self.label = _("DependsPublished")
+        self.detailed_label = _("Depends On Published")
+        self.sortable = False
+        self.shrink = False
+
+    def render_data(self, review_request):
+        published = review_request.depends_on_published.all()
+        return reduce(lambda a, d: a + d + ' ', published, '')
+
 class GroupsColumn(Column):
     def __init__(self, *args, **kwargs):
         Column.__init__(self, *args, **kwargs)
@@ -542,6 +566,8 @@ class ReviewRequestDataGrid(DataGrid):
 
     target_groups = GroupsColumn()
     target_people = PeopleColumn()
+    depends_on_drafts = DependsOnDraftColumn()
+    depends_on_published = DependsOnPublishedColumn()
     to_me = ToMeColumn()
 
     review_id = Column(_("Review ID"),

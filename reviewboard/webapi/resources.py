@@ -1383,6 +1383,8 @@ class ChangeResource(WebAPIResource):
         'screenshots': Screenshot,
         'target_people': User,
         'target_groups': Group,
+        'depends_on_drafts': ReviewRequestDraft,
+        'depends_on_published': ReviewRequest
     }
 
     def serialize_fields_changed_field(self, obj, **kwargs):
