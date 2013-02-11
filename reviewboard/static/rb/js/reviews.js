@@ -207,10 +207,7 @@ function setDraftField(field, value) {
                     }
                 }
 
-                $("#review-request-warning")
-                    .show()
-                    .find("td")
-                        .html(message);
+                $("#review-request-warning").show().html(message);
             }
 
             var func = gEditorCompleteHandlers[field];

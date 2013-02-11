@@ -239,6 +239,14 @@ class BaseReviewRequestDetails(models.Model):
                                         blank = True, null = True, 
                                         verbose_name = _("Dependencies"))
 
+    def get_blocked_drafts(self, base_review):
+        return ReviewRequestDraft.objects.filter(Q(depends_on_drafts = base_review) |
+                                                 Q(depends_on_published = base_review))
+
+    def get_blocked_published(self, base_review):
+        return ReviewRequest.objects.filter(Q(depends_on_drafts = base_review) |
+                                            Q(depends_on_published = base_review))
+
     def _get_review_request(self):
         raise NotImplementedError
 
