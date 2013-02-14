@@ -59,12 +59,12 @@
     <th class="label"><label for="depends">{% trans "Depends On" %}:</label></th>
     <td class="value" id="depends-value-cell"><span id="depends" class="editable comma-editable">
       {% spaceless %}
-        {%  for dependency in review_request_details.depends_on_published.all %}
+        {% for dependency in review_request_details.depends_on_published.all %}
           <a href="/r/{{dependency.get_display_id}}">{{dependency.get_display_id}}</a>
           {% if not forloop.last %}, {% endif %}
-        {%  endfor %}
+        {% endfor %}
         {% if review_request_details.depends_on_published.all %}, {% endif %}
-        {%  for draftdependency in review_request_details.depends_on_drafts.all %}
+        {% for draftdependency in review_request_details.depends_on_drafts.all %}
           <a href="/r/{{draftdependency.review_request.display_id}}">{{draftdependency.review_request.display_id}}</a>
           {% if not forloop.last %}, {% endif %}
         {%  endfor %}
@@ -74,17 +74,6 @@
    <tr>
     <th class="label"><label for="blocks">{% trans "Blocks" %}:</label></th>
     <td class="value" id="blocks-value-cell"><span id="blocks" class="">
-      {% spaceless %}
-        {%  for blocking in review_request.get_blocked_drafts %}
-          <a href="/r/{{blocking.get_display_id}}">{{blocking.get_display_id}}</a>
-          {% if not forloop.last %}, {% endif %}
-        {%  endfor %}
-        {% if review_request.get_blocked_drafts %}, {% endif %}
-        {%  for blocking in review_request.get_blocked_published %}
-          <a href="/r/{{blocking.get_display_id}}">{{blocking.get_display_id}}</a>
-          {% if not forloop.last %}, {% endif %}
-        {%  endfor %}
-      {% endspaceless %}
     </span></td>
    </tr>
 

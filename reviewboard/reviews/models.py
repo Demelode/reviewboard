@@ -234,18 +234,12 @@ class BaseReviewRequestDetails(models.Model):
     branch = models.CharField(_("branch"), max_length=300, blank=True)
     depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
                                         blank = True, null = True, 
-                                        verbose_name = _("Draft Dependencies"))
+                                        verbose_name = _("Draft Dependencies"),
+                                        related_name=_("%(app_label)s_%(class)s_related"))
     depends_on_published = models.ManyToManyField('ReviewRequest',
                                         blank = True, null = True, 
-                                        verbose_name = _("Dependencies"))
-
-    def get_blocked_drafts(self, base_review):
-        return ReviewRequestDraft.objects.filter(Q(depends_on_drafts = base_review) |
-                                                 Q(depends_on_published = base_review))
-
-    def get_blocked_published(self, base_review):
-        return ReviewRequest.objects.filter(Q(depends_on_drafts = base_review) |
-                                            Q(depends_on_published = base_review))
+                                        verbose_name = _("Dependencies"),
+                                        related_name=_("%(app_label)s_%(class)s_related"))
 
     def _get_review_request(self):
         raise NotImplementedError
