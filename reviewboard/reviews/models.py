@@ -232,14 +232,28 @@ class BaseReviewRequestDetails(models.Model):
     testing_done = models.TextField(_("testing done"), blank=True)
     bugs_closed = models.CharField(_("bugs"), max_length=300, blank=True)
     branch = models.CharField(_("branch"), max_length=300, blank=True)
-    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
-                                        blank = True, null = True, 
-                                        verbose_name = _("Draft Dependencies"),
-                                        related_name=_("%(app_label)s_%(class)s_related"))
-    depends_on_published = models.ManyToManyField('ReviewRequest',
-                                        blank = True, null = True, 
-                                        verbose_name = _("Dependencies"),
-                                        related_name=_("%(app_label)s_%(class)s_related"))
+    # depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
+    #                                     blank = True, null = True, 
+    #                                     verbose_name = _("Draft Dependencies"))
+    # depends_on_published = models.ManyToManyField('ReviewRequest',
+    #                                     blank = True, null = True, 
+    #                                     verbose_name = _("Dependencies"))
+    
+    # def get_published_blocked_published(self):
+    #     blocked_list = self.reviews_reviewrequests_pub_rel.all()
+    #     return blocked_list
+
+    # def get_published_blocked_drafts(self):
+    #     blocked_list = self.reviews_reviewrequests_dra_rel.all()
+    #     return blocked_list
+
+    # def get_drafts_blocked_published(self):
+    #     blocked_list = self.reviews_reviewrequestdrafts_pub_rel.all()
+    #     return blocked_list
+
+    # def get_drafts_blocked_drafts(self):
+    #     blocked_list = self.depends_on_drafts.reviewrequestdraft_set.all()
+    #     return blocked_list
 
     def _get_review_request(self):
         raise NotImplementedError
@@ -511,6 +525,16 @@ class ReviewRequest(BaseReviewRequestDetails):
         related_name="review_request",
         blank=True)
 
+    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
+                                        blank = True, null = True, 
+                                        verbose_name = _("Draft Dependencies"),
+                                        related_name = _("published_draft"),
+                                        symmetrical = True)
+    depends_on_published = models.ManyToManyField('ReviewRequest',
+                                        blank = True, null = True, 
+                                        verbose_name = _("Dependencies"),
+                                        related_name = _("published_published"),
+                                        symmetrical = True)
     # Review-related information
 
     # The timestamp representing the last public activity of a review.
@@ -1048,11 +1072,20 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
                                          related_name="drafts",
                                          verbose_name=_("screenshots"),
                                          blank=True)
+    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
+                                        blank = True, null = True, 
+                                        verbose_name = _("Draft Dependencies"),
+                                        related_name = _("draft_draft"),
+                                        symmetrical = True)
+    depends_on_published = models.ManyToManyField('ReviewRequest',
+                                        blank = True, null = True, 
+                                        verbose_name = _("Dependencies"),
+                                        related_name = _("draft_published"),
+                                        symmetrical = True)
     inactive_screenshots = models.ManyToManyField(Screenshot,
         verbose_name=_("inactive screenshots"),
         related_name="inactive_drafts",
         blank=True)
-
     file_attachments = models.ManyToManyField(
         FileAttachment,
         related_name="drafts",
