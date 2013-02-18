@@ -4,9 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from reviewboard.reviews.forms import DefaultReviewerForm, GroupForm
 from reviewboard.reviews.models import Comment, DefaultReviewer, Group, \
-                                       Review, ReviewRequest, \
-                                       ReviewRequestDraft, Screenshot, \
-                                       ScreenshotComment, FileAttachmentComment
+    Review, ReviewRequest, \
+    ReviewRequestDraft, Screenshot, \
+    ScreenshotComment, FileAttachmentComment
 
 
 class CommentAdmin(admin.ModelAdmin):
@@ -24,6 +24,7 @@ class CommentAdmin(admin.ModelAdmin):
     def truncated_text(self, obj):
         return truncatechars(obj.text, 60)
     truncated_text.short_description = _('Comment Text')
+
 
 class DefaultReviewerAdmin(admin.ModelAdmin):
     form = DefaultReviewerForm
@@ -110,7 +111,7 @@ class ReviewRequestAdmin(admin.ModelAdmin):
         (_('General Information'), {
             'fields': ('submitter', 'public', 'status',
                        'summary', 'description', 'testing_done',
-                       'bugs_closed', 'repository', 'branch', 
+                       'bugs_closed', 'repository', 'branch',
                        'depends_on', 'changenum', 'time_added')
         }),
         (_('Reviewers'), {
@@ -189,7 +190,7 @@ class ReviewRequestDraftAdmin(admin.ModelAdmin):
         (_('General Information'), {
             'fields': ('review_request',
                        'summary', 'description', 'testing_done',
-                       'bugs_closed', 'branch'),
+                       'draft_depends_on', 'bugs_closed', 'branch'),
         }),
         (_('Reviewers'), {
             'fields': ('target_people', 'target_groups'),
@@ -224,7 +225,8 @@ class ScreenshotCommentAdmin(admin.ModelAdmin):
 
 
 class FileAttachmentCommentAdmin(admin.ModelAdmin):
-    list_display = ('text', 'file_attachment', 'review_request_id', 'timestamp')
+    list_display = ('text', 'file_attachment',
+                    'review_request_id', 'timestamp')
     list_filter = ('timestamp',)
     search_fields = ['caption']
     raw_id_fields = ('file_attachment', 'reply_to')

@@ -63,7 +63,11 @@
           <a href="/r/{{dependency.get_display_id}}">{{dependency.get_display_id}}</a>
           {% if not forloop.last %}, {% endif %}
         {% endfor %}
-        {% if review_request_details.depends_on_published.all %}, {% endif %}
+        {% if review_request_details.depends_on.all %}, {% endif %}
+          {% for dependency in review_request_details.draft_depends_on.all %}
+          <a href="/r/{{dependency.get_display_id}}">{{dependency.get_display_id}}</a>
+          {% if not forloop.last %}, {% endif %}
+        {% endfor %}
       {% endspaceless %}
     </span></td>
    </tr>
@@ -75,7 +79,6 @@
           <a href="/r/{{dependency.get_display_id}}">{{dependency.get_display_id}}</a>
           {% if not forloop.last %}, {% endif %}
         {% endfor %}
-        {% if review_request_details.depends_on_published.all %}, {% endif %}
       {% endspaceless %}
     </span></td>
    </tr>

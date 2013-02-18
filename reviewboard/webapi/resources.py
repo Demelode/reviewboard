@@ -1383,8 +1383,6 @@ class ChangeResource(WebAPIResource):
         'screenshots': Screenshot,
         'target_people': User,
         'target_groups': Group,
-        'depends_on_drafts': ReviewRequestDraft,
-        'depends_on_published': ReviewRequest
     }
 
     def serialize_fields_changed_field(self, obj, **kwargs):
@@ -3913,18 +3911,6 @@ class ReviewRequestDraftResource(WebAPIResource):
             'type': str,
             'description': 'The new testing done text.',
         },
-        'depends_on_drafts': {
-            'type': str,
-            'description': 'A comma-separated list of draft review '
-                           'requests that the current request is '
-                           'dependent upon.',
-        },
-        'depends_on_published': {
-            'type': str,
-            'description': 'A comma-separated list of review '
-                           'requests that the current request is '
-                           'dependent upon.',
-        },
     }
 
     allowed_methods = ('GET', 'POST', 'PUT', 'DELETE')
@@ -4009,18 +3995,6 @@ class ReviewRequestDraftResource(WebAPIResource):
                 'type': str,
                 'description': 'The new testing done text.',
             },
-            'depends_on_drafts': {
-            'type': str,
-            'description': 'A comma-separated list of draft review '
-                           'requests that the current request is '
-                           'dependent upon.',
-            },
-            'depends_on_published': {
-                'type': str,
-                'description': 'A comma-separated list of review '
-                               'requests that the current request is '
-                               'dependent upon.',
-            },
         },
     )
     def create(self, *args, **kwargs):
@@ -4082,18 +4056,6 @@ class ReviewRequestDraftResource(WebAPIResource):
             'testing_done': {
                 'type': str,
                 'description': 'The new testing done text.',
-            },
-             'depends_on_drafts': {
-            'type': str,
-            'description': 'A comma-separated list of draft review '
-                           'requests that the current request is '
-                           'dependent upon.',
-            },
-            'depends_on_published': {
-                'type': str,
-                'description': 'A comma-separated list of review '
-                               'requests that the current request is '
-                               'dependent upon.',
             },
         },
     )
@@ -4238,7 +4200,6 @@ class ReviewRequestDraftResource(WebAPIResource):
                 except:
                     invalid_entries.append(value)
         elif field_name == 'depends':
-            # check if draft or published
             values = re.split(r",\s*", data)
             target = getattr(draft, field_name)
             target.clear()
@@ -6702,7 +6663,7 @@ class ReviewRequestResource(WebAPIResource):
                 'description': 'A comma-separated list of usernames that the '
                                'review requests must have in the reviewer '
                                'list specifically.',
-            }
+            },
         },
         allow_unknown=True
     )

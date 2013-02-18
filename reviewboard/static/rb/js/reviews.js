@@ -50,8 +50,6 @@ var gEditorCompleteHandlers = {
     },
     'description': linkifyText,
     'testing_done': linkifyText,
-    'depends_on_drafts': linkifyText,
-    'depends_on_published': linkifyText
 };
 
 
