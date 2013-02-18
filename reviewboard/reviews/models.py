@@ -525,16 +525,10 @@ class ReviewRequest(BaseReviewRequestDetails):
         related_name="review_request",
         blank=True)
 
-    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
-                                        blank = True, null = True, 
-                                        verbose_name = _("Draft Dependencies"),
-                                        related_name = _("published_draft"),
-                                        symmetrical = True)
-    depends_on_published = models.ManyToManyField('ReviewRequest',
+    depends_on = models.ManyToManyField('ReviewRequest',
                                         blank = True, null = True, 
                                         verbose_name = _("Dependencies"),
-                                        related_name = _("published_published"),
-                                        symmetrical = True)
+                                        related_name = _("blocks"))
     # Review-related information
 
     # The timestamp representing the last public activity of a review.
@@ -1072,16 +1066,6 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
                                          related_name="drafts",
                                          verbose_name=_("screenshots"),
                                          blank=True)
-    depends_on_drafts = models.ManyToManyField('ReviewRequestDraft',
-                                        blank = True, null = True, 
-                                        verbose_name = _("Draft Dependencies"),
-                                        related_name = _("draft_draft"),
-                                        symmetrical = True)
-    depends_on_published = models.ManyToManyField('ReviewRequest',
-                                        blank = True, null = True, 
-                                        verbose_name = _("Dependencies"),
-                                        related_name = _("draft_published"),
-                                        symmetrical = True)
     inactive_screenshots = models.ManyToManyField(Screenshot,
         verbose_name=_("inactive screenshots"),
         related_name="inactive_drafts",
