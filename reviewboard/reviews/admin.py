@@ -190,7 +190,7 @@ class ReviewRequestDraftAdmin(admin.ModelAdmin):
         (_('General Information'), {
             'fields': ('review_request',
                        'summary', 'description', 'testing_done',
-                       'draft_depends_on', 'bugs_closed', 'branch'),
+                       'depends_on', 'bugs_closed', 'branch'),
         }),
         (_('Reviewers'), {
             'fields': ('target_people', 'target_groups'),

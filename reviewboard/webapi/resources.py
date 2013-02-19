@@ -3876,6 +3876,10 @@ class ReviewRequestDraftResource(WebAPIResource):
             'description': 'The new list of bugs closed or referenced by this '
                            'change.',
         },
+        'depends_on': {
+            'type': str,
+            'description': 'The new list of dependencies of this request.',
+        },
         'changedescription': {
             'type': str,
             'description': 'A custom description of what changes are being '
@@ -3963,6 +3967,10 @@ class ReviewRequestDraftResource(WebAPIResource):
                 'type': str,
                 'description': 'A comma-separated list of bug IDs.',
             },
+            'depends_on': {
+                'type': str,
+                'description': 'The new list of dependencies of this request.',
+            },
             'changedescription': {
                 'type': str,
                 'description': 'The change description for this update.',
@@ -4023,6 +4031,10 @@ class ReviewRequestDraftResource(WebAPIResource):
             'bugs_closed': {
                 'type': str,
                 'description': 'A comma-separated list of bug IDs.',
+            },
+            'depends_on': {
+                'type': str,
+                'description': 'The new list of dependencies of this request.',
             },
             'changedescription': {
                 'type': str,
@@ -4175,7 +4187,7 @@ class ReviewRequestDraftResource(WebAPIResource):
         modified_objects = []
         invalid_entries = []
 
-        if field_name in ('target_groups', 'target_people'):
+        if field_name in ('target_groups', 'target_people', 'depends_on'):
             values = re.split(r",\s*", data)
             target = getattr(draft, field_name)
             target.clear()
@@ -4195,26 +4207,12 @@ class ReviewRequestDraftResource(WebAPIResource):
                     elif field_name == "target_people":
                         obj = self._find_user(username=value,
                                               local_site=local_site)
+                    elif field_name == "depends_on":
+                        obj = ReviewRequest.objects.get(local_id=value)
 
                     target.add(obj)
                 except:
                     invalid_entries.append(value)
-        elif field_name == 'depends':
-            values = re.split(r",\s*", data)
-            target = getattr(draft, field_name)
-            target.clear()
-
-            for value in values:
-                if not value:
-                    continue
-
-            try:
-                obj = ReviewRequest.objects.get(Q(local_id=value) |
-                                                Q(local_site=value))
-                target.add(obj)
-            except:
-                invalid_entries.append(value)
-
         elif field_name == 'bugs_closed':
             data = list(self._sanitize_bug_ids(data))
             setattr(draft, field_name, ','.join(data))
