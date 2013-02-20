@@ -1249,7 +1249,7 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
         update_list(review_request.target_people, self.target_people,
                     'target_people', name_field="username")
         update_list(review_request.depends_on, self.depends_on,
-                    'depends_on', name_field="name")
+                    'depends_on', name_field="summary")
 
         # Specifically handle bug numbers
         old_bugs = review_request.get_bug_list()

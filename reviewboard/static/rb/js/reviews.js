@@ -200,12 +200,16 @@ function setDraftField(field, value) {
                 if (rsp.fields[field].length == 1) {
                     if (field == "target_groups") {
                         message = "Group " + message + " does not exist.";
+                    } else if (field == "depends_on") {
+                        message = "Request " + message + " does not exist.";
                     } else {
                         message = "User " + message + " does not exist.";
                     }
                 } else {
                     if (field == "target_groups") {
                         message = "Groups " + message + " do not exist.";
+                    } else if (field == "depends_on") {
+                        message = "Requests " + message + " do not exist.";
                     } else {
                         message = "Users " + message + " do not exist.";
                     }
