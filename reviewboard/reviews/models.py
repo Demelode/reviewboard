@@ -8,11 +8,13 @@ from django.utils import timezone
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
+
 from djblets.util.db import ConcurrencyManager
 from djblets.util.fields import CounterField, JSONField, \
     ModificationTimestampField
 from djblets.util.misc import get_object_or_none
 from djblets.util.templatetags.djblets_images import crop_image, thumbnail
+
 from reviewboard.changedescs.models import ChangeDescription
 from reviewboard.diffviewer.models import DiffSet, DiffSetHistory, FileDiff
 from reviewboard.attachments.models import FileAttachment
@@ -1178,6 +1180,7 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
            *  'description'
            *  'testing_done'
            *  'bugs_closed'
+           *  'depends_on'
            *  'branch'
            *  'target_groups'
            *  'target_people'
@@ -1245,6 +1248,8 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
                     'target_groups', name_field="name")
         update_list(review_request.target_people, self.target_people,
                     'target_people', name_field="username")
+        update_list(review_request.depends_on, self.depends_on,
+                    'depends_on', name_field="name")
 
         # Specifically handle bug numbers
         old_bugs = review_request.get_bug_list()

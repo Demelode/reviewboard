@@ -20,12 +20,14 @@ from django.utils.timezone import utc
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_control
 from django.views.generic.list_detail import object_list
+
 from djblets.auth.util import login_required
 from djblets.siteconfig.models import SiteConfiguration
 from djblets.util.dates import get_latest_timestamp
 from djblets.util.http import set_last_modified, get_modified_since, \
     set_etag, etag_if_none_match
 from djblets.util.misc import get_object_or_none
+
 from reviewboard.accounts.decorators import check_login_required, \
     valid_prefs_required
 from reviewboard.accounts.models import ReviewRequestVisit, Profile

@@ -4540,7 +4540,7 @@ class ReviewRequestDraftResource(WebAPIResource):
         invalid_entries = []
 
         if field_name in ('target_groups', 'target_people', 'depends_on'):
-            values = re.split(r",\s*", data)
+            values = re.split(r"[,\s*]", data)
             target = getattr(draft, field_name)
             target.clear()
 
@@ -4560,11 +4560,13 @@ class ReviewRequestDraftResource(WebAPIResource):
                         obj = self._find_user(username=value,
                                               local_site=local_site)
                     elif field_name == "depends_on":
-                        obj = ReviewRequest.objects.get(local_id=value)
-
+                        obj = ReviewRequest.objects.get((Q(local_id=value) |
+                                                         Q(id=value)) &
+                                                Q(local_site=local_site))
                     target.add(obj)
                 except:
                     invalid_entries.append(value)
+
         elif field_name == 'bugs_closed':
             data = list(self._sanitize_bug_ids(data))
             setattr(draft, field_name, ','.join(data))
@@ -6491,6 +6493,10 @@ class ReviewRequestResource(WebAPIResource):
             'description': 'The list of users who were requested to review '
                            'this change.',
         },
+        'url': {
+            'type': str,
+            'description': "The URL to the request's page on the site. ",
+        },
     }
     uri_object_key = 'review_request_id'
     model_object_key = 'display_id'
@@ -6691,6 +6697,9 @@ class ReviewRequestResource(WebAPIResource):
 
     def serialize_id_field(self, obj, **kwargs):
         return obj.display_id
+
+    def serialize_url_field(self, obj, **kwargs):
+        return obj.get_absolute_url()
 
     @webapi_check_local_site
     @webapi_login_required

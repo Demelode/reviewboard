@@ -43,10 +43,16 @@ var gEditorCompleteHandlers = {
     },
     'target_people': function(data) {
         return $(urlizeList(data,
-                            function(item) { return item.url; },
-                            function(item) { return item.username; }))
+            function(item) { return item.url; },
+            function(item) { return item.username; }))
             .addClass("user")
             .user_infobox();
+    },
+    'depends_on': function(data) {
+        return urlizeList(data,
+            function(item) { return item.url; },
+            function(item) { return item.id; }
+        );
     },
     'description': linkifyText,
     'testing_done': linkifyText,
