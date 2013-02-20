@@ -4562,7 +4562,7 @@ class ReviewRequestDraftResource(WebAPIResource):
                     elif field_name == "depends_on":
                         obj = ReviewRequest.objects.get((Q(local_id=value) |
                                                          Q(id=value)) &
-                                                Q(local_site=local_site))
+                                                         Q(local_site=local_site))
                     target.add(obj)
                 except:
                     invalid_entries.append(value)

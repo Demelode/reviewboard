@@ -550,7 +550,8 @@ class ReviewRequest(BaseReviewRequestDetails):
 
     def get_depends_on_list(self):
         """
-        Returns a sorted list of dependencies associated with this review request.
+        Returns a sorted list of dependencies associated with this 
+        review request.
         """
         return self.depends_on
 
