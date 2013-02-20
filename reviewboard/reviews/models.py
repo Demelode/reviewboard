@@ -1094,13 +1094,14 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
     local_site = property(lambda self: self.review_request.local_site)
 
     depends_on = models.ManyToManyField('ReviewRequest',
-                                              blank=True, null=True,
-                                              verbose_name=_("Dependencies"),
-                                              related_name=_("draft_blocks"))
+                                        blank=True, null=True,
+                                        verbose_name=_("Dependencies"),
+                                        related_name=_("draft_blocks"))
 
     def get_depends_on_list(self):
         """
-        Returns a sorted list of dependencies associated with this review request.
+        Returns a sorted list of dependencies associated with this
+        review request.
         """
         return self.depends_on
 
