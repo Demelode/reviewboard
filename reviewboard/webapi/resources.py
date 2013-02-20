@@ -4554,15 +4554,15 @@ class ReviewRequestDraftResource(WebAPIResource):
                     local_site = _get_local_site(local_site_name)
                     if field_name == "target_groups":
                         obj = Group.objects.get((Q(name__iexact=value) |
-                                               Q(display_name__iexact=value)) &
-                                               Q(local_site=local_site))
+                                                Q(display_name__iexact=value)) &
+                                                Q(local_site=local_site))
                     elif field_name == "target_people":
                         obj = self._find_user(username=value,
                                               local_site=local_site)
                     elif field_name == "depends_on":
                         obj = ReviewRequest.objects.get((Q(local_id=value) |
-                                                       Q(id=value)) &
-                                                       Q(local_site=local_site))
+                                                        Q(id=value)) &
+                                                        Q(local_site=local_site))
                     target.add(obj)
                 except:
                     invalid_entries.append(value)

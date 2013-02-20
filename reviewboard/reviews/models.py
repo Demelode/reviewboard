@@ -548,13 +548,6 @@ class ReviewRequest(BaseReviewRequestDetails):
     # Set this up with the ReviewRequestManager
     objects = ReviewRequestManager()
 
-    def get_depends_on_list(self):
-        """
-        Returns a sorted list of dependencies associated with this 
-        review request.
-        """
-        return self.depends_on
-
     def get_participants(self):
         """
         Returns a list of all people who have been involved in discussing
@@ -1094,17 +1087,9 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
     local_site = property(lambda self: self.review_request.local_site)
 
     depends_on = models.ManyToManyField('ReviewRequest',
-                                        blank=True, null=True,
-                                        verbose_name=_("Dependencies"),
-                                        related_name=_("draft_blocks"))
-
-    def get_depends_on_list(self):
-        """
-        Returns a sorted list of dependencies associated with this
-        review request.
-        """
-        return self.depends_on
-
+                                       blank=True, null=True,
+                                       verbose_name=_("Dependencies"),
+                                       related_name=_("draft_blocks"))
 
     # Set this up with a ConcurrencyManager to help prevent race conditions.
     objects = ConcurrencyManager()
