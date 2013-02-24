@@ -61,7 +61,6 @@ var gEditorCompleteHandlers = {
         );
     },
     'description': linkifyText,
-    'testing_done': linkifyText
 };
 
 

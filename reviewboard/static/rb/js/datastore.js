@@ -113,6 +113,7 @@ $.extend(RB.ReviewRequest.prototype, {
     publish: function(options) {
         var self = this;
 
+
         options = $.extend(true, {}, options);
 
         self.ready(function() {
