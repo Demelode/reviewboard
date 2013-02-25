@@ -4230,7 +4230,8 @@ class ReviewRequestDraftResource(WebAPIResource):
         },
         'depends_on': {
             'type': str,
-            'description': 'The new list of dependencies of this review request.',
+            'description': 'The new list of dependencies of this review '
+                           'request.',
         },
         'changedescription': {
             'type': str,
@@ -4321,7 +4322,8 @@ class ReviewRequestDraftResource(WebAPIResource):
             },
             'depends_on': {
                 'type': str,
-                'description': 'The new list of dependencies of this review request.',
+                'description': 'The new list of dependencies of this review '
+                               'request.',
             },
             'changedescription': {
                 'type': str,
@@ -4386,7 +4388,8 @@ class ReviewRequestDraftResource(WebAPIResource):
             },
             'depends_on': {
                 'type': str,
-                'description': 'The new list of dependencies of this review request.',
+                'description': 'The new list of dependencies of this review '
+                               'request.',
             },
             'changedescription': {
                 'type': str,
