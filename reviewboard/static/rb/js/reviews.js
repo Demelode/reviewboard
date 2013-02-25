@@ -43,6 +43,8 @@ var gEditorCompleteHandlers = {
     },
     'target_people': function(data) {
         return $(urlizeList(data,
+            function(item) { return item.url; },
+            function(item) { return item.username; }))
             .addClass("user")
             .user_infobox();
     },
@@ -53,6 +55,7 @@ var gEditorCompleteHandlers = {
         );
     },
     'description': linkifyText,
+    'testing_done': linkifyText,
 };
 
 

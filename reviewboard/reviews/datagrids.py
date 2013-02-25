@@ -364,6 +364,19 @@ class PeopleColumn(Column):
         return reduce(lambda a, d: a + d.username + ' ', people, '')
 
 
+class DependsOnColumn(Column):
+    def __init__(self, *args, **kwargs):
+        Column.__init__(self, *args, **kwargs)
+        self.label = _("DependsOn")
+        self.detailed_label = _("Depends On")
+        self.sortable = False
+        self.shrink = False
+
+    def render_data(self, review_request):
+        drafts = review_request.depends_on.all()
+        return reduce(lambda a, d: a + d + ' ', drafts, '')
+
+
 class GroupsColumn(Column):
     def __init__(self, *args, **kwargs):
         Column.__init__(self, *args, **kwargs)
@@ -542,6 +555,7 @@ class ReviewRequestDataGrid(DataGrid):
 
     target_groups = GroupsColumn()
     target_people = PeopleColumn()
+    depends_on = DependsOnColumn()
     to_me = ToMeColumn()
 
     review_id = Column(_("Review ID"),

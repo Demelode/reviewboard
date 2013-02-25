@@ -4554,6 +4554,7 @@ class ReviewRequestDraftResource(WebAPIResource):
                     local_site = _get_local_site(local_site_name)
                     if field_name == "target_groups":
                         obj = Group.objects.get((Q(name__iexact=value) |
+                                                Q(display_name__iexact=value)) &
                                                 Q(local_site=local_site))
                     elif field_name == "target_people":
                         obj = self._find_user(username=value,
@@ -7021,7 +7022,7 @@ class ReviewRequestResource(WebAPIResource):
                 'description': 'A comma-separated list of usernames that the '
                                'review requests must have in the reviewer '
                                'list specifically.',
-            }
+            },
         },
         allow_unknown=True
     )

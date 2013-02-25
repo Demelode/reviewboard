@@ -8,9 +8,9 @@ from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404, \
-                        HttpResponseNotModified, HttpResponseServerError
+    HttpResponseNotModified, HttpResponseServerError
 from django.shortcuts import get_object_or_404, get_list_or_404, \
-                             render_to_response
+    render_to_response
 from django.template.context import RequestContext
 from django.template.loader import render_to_string
 from django.utils import simplejson, timezone
@@ -25,11 +25,11 @@ from djblets.auth.util import login_required
 from djblets.siteconfig.models import SiteConfiguration
 from djblets.util.dates import get_latest_timestamp
 from djblets.util.http import set_last_modified, get_modified_since, \
-                              set_etag, etag_if_none_match
+    set_etag, etag_if_none_match
 from djblets.util.misc import get_object_or_none
 
 from reviewboard.accounts.decorators import check_login_required, \
-                                            valid_prefs_required
+    valid_prefs_required
 from reviewboard.accounts.models import ReviewRequestVisit, Profile
 from reviewboard.attachments.forms import UploadFileForm, CommentFileForm
 from reviewboard.attachments.models import FileAttachment
@@ -37,23 +37,23 @@ from reviewboard.changedescs.models import ChangeDescription
 from reviewboard.diffviewer.diffutils import get_file_chunks_in_range
 from reviewboard.diffviewer.models import DiffSet
 from reviewboard.diffviewer.views import view_diff, view_diff_fragment, \
-                                         exception_traceback_string
+    exception_traceback_string
 from reviewboard.extensions.hooks import DashboardHook, \
-                                         ReviewRequestDetailHook
+    ReviewRequestDetailHook
 from reviewboard.reviews.ui.screenshot import LegacyScreenshotReviewUI
 from reviewboard.reviews.datagrids import DashboardDataGrid, \
-                                          GroupDataGrid, \
-                                          ReviewRequestDataGrid, \
-                                          SubmitterDataGrid, \
-                                          WatchedGroupDataGrid
+    GroupDataGrid, \
+    ReviewRequestDataGrid, \
+    SubmitterDataGrid, \
+    WatchedGroupDataGrid
 from reviewboard.reviews.errors import OwnershipError
 from reviewboard.reviews.forms import NewReviewRequestForm, \
-                                      UploadDiffForm, \
-                                      UploadScreenshotForm
+    UploadDiffForm, \
+    UploadScreenshotForm
 from reviewboard.reviews.models import Comment, \
-                                       FileAttachmentComment, \
-                                       Group, ReviewRequest, Review, \
-                                       Screenshot, ScreenshotComment
+    FileAttachmentComment, \
+    Group, ReviewRequest, Review, \
+    Screenshot, ScreenshotComment
 from reviewboard.scmtools.core import PRE_CREATION
 from reviewboard.scmtools.errors import SCMError
 from reviewboard.site.models import LocalSite

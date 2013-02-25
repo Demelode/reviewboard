@@ -29,7 +29,9 @@
    {% endblocktrans %}
   {% endif %}
   {% endwith %}
+  by <a id="submitter" class="user" href="{% url user review_request.submitter %}">{{review_request.submitter|user_displayname}}</a>
   </p>
+
  </div>
  <div id="details">
   <div id="review-request-warning"></div>
@@ -39,10 +41,6 @@
     <col width="0%" />
     <col width="100%" />
    </colgroup>
-   <tr>
-    <th class="label"><label for="submitter">{% trans "Submitter" %}:</label></th>
-    <td class="value"><a id="submitter" class="user" href="{% url user review_request.submitter %}">{{review_request.submitter|user_displayname}}</a></td>
-   </tr>
    <tr>
     <th class="label"><label for="branch">{% trans "Branch" %}:</label></th>
     <td class="value" id="branch-value-cell"><span id="branch" class="editable">{{review_request_details.branch|safe}}</span></td>
@@ -116,7 +114,7 @@
     <th class="label"><label for="target_groups">{% trans "Groups" %}:</label></th>
     <td class="value" id="target-groups-value-cell"><span id="target_groups" class="editable">{% spaceless %}
 {%  for group in review_request_details.target_groups.all %}
-<a href="{% url group group %}">{{group}}</a>{%if not forloop.last %}, {%endif %}
+<a href="{% url group group %}">{{group}} </a>{%if not forloop.last %}, {%endif %}
 {%  endfor %}
 {% endspaceless %}</span></td>
    </tr>
