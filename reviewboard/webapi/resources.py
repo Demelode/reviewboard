@@ -4230,7 +4230,7 @@ class ReviewRequestDraftResource(WebAPIResource):
         },
         'depends_on': {
             'type': str,
-            'description': 'The new list of dependencies of this request.',
+            'description': 'The new list of dependencies of this review request.',
         },
         'changedescription': {
             'type': str,
@@ -4321,7 +4321,7 @@ class ReviewRequestDraftResource(WebAPIResource):
             },
             'depends_on': {
                 'type': str,
-                'description': 'The new list of dependencies of this request.',
+                'description': 'The new list of dependencies of this review request.',
             },
             'changedescription': {
                 'type': str,
@@ -4386,7 +4386,7 @@ class ReviewRequestDraftResource(WebAPIResource):
             },
             'depends_on': {
                 'type': str,
-                'description': 'The new list of dependencies of this request.',
+                'description': 'The new list of dependencies of this review request.',
             },
             'changedescription': {
                 'type': str,
@@ -4540,7 +4540,7 @@ class ReviewRequestDraftResource(WebAPIResource):
         invalid_entries = []
 
         if field_name in ('target_groups', 'target_people', 'depends_on'):
-            values = re.split(r"[,\s*]", data)
+            values = re.split(r",\s*", data)
             target = getattr(draft, field_name)
             target.clear()
 
@@ -4561,8 +4561,8 @@ class ReviewRequestDraftResource(WebAPIResource):
                                               local_site=local_site)
                     elif field_name == "depends_on":
                         obj = ReviewRequest.objects.get((Q(local_id=value) |
-                                                        Q(id=value)) &
-                                                        Q(local_site=local_site))
+                                        Q(id=value)) &
+                                        Q(local_site=local_site))
                     target.add(obj)
                 except:
                     invalid_entries.append(value)
@@ -6495,7 +6495,7 @@ class ReviewRequestResource(WebAPIResource):
         },
         'url': {
             'type': str,
-            'description': "The URL to the request's page on the site. ",
+            'description': "The URL to the review request's page on the site.",
         },
     }
     uri_object_key = 'review_request_id'

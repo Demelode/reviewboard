@@ -528,8 +528,8 @@ class ReviewRequest(BaseReviewRequestDetails):
 
     depends_on = models.ManyToManyField('ReviewRequest',
                                         blank=True, null=True,
-                                        verbose_name=_("Dependencies"),
-                                        related_name=_("blocks"))
+                                        verbose_name="Dependencies",
+                                        related_name="blocks")
     # Review-related information
 
     # The timestamp representing the last public activity of a review.
@@ -1087,9 +1087,9 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
     local_site = property(lambda self: self.review_request.local_site)
 
     depends_on = models.ManyToManyField('ReviewRequest',
-                                       blank=True, null=True,
-                                       verbose_name=_("Dependencies"),
-                                       related_name=_("draft_blocks"))
+                                        blank=True, null=True,
+                                        verbose_name="Dependencies",
+                                        related_name="draft_blocks")
 
     # Set this up with a ConcurrencyManager to help prevent race conditions.
     objects = ConcurrencyManager()
