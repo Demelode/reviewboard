@@ -4563,7 +4563,7 @@ class ReviewRequestDraftResource(WebAPIResource):
                         obj = self._find_user(username=value,
                                               local_site=local_site)
                     elif field_name == "depends_on":
-                        if local_site == None:
+                        if local_site is None:
                             obj = ReviewRequest.objects.get(id=value)
                         else:
                             obj = ReviewRequest.objects.get(Q(local_id=value) &
