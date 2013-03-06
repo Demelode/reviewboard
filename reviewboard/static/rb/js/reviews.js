@@ -1760,8 +1760,12 @@ $(document).ready(function() {
         return false;
     });
 
-    $("#submitted-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
-    $("#discard-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_DISCARDED);
+    $("#submitted-banner #changedescription.editable, " +
+      "#submitted-banner #revision.editable, " +
+      "#submitted-banner #submitted_branch.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
+    $("#submitted-banner #changedescription.editable, " +
+      "#submitted-banner #revision.editable, " +
+      "#submitted-banner #submitted_branch.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_DISCARDED);
 
     if (gUserAuthenticated) {
         if (window["gEditable"]) {

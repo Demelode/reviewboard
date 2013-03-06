@@ -7,10 +7,10 @@
 {% if request.user.pk == review_request.submitter_id or perms.reviews.can_change_status %}
  <input type="submit" id="btn-review-request-reopen"
   value="{% trans "Reopen for Review" %}" />
- <p><label for="branch">{% trans "Branch:" %}</label></p>
- <pre id="branch" class="">Test</pre>
+ <p><label for="submitted_branch">{% trans "Branch:" %}</label></p>
+ <pre id="submitted_branch" class="editable"></pre>
  <p><label for="revision">{% trans "Revision:" %}</label></p>
-<pre id="revision" class="">Test Revision</pre> 
+ <pre id="revision" class="editable"></pre> 
  <p><label for="changedescription">{% trans "Describe the submission (optional):" %}</label></p>
  <pre id="changedescription" class="editable">{{close_description}}</pre>
 {% elif close_description %}
@@ -27,6 +27,10 @@
   value="{% trans "Reopen for Review" %}" />
 {% endif %}
 {% if request.user.pk == review_request.submitter_id or perms.reviews.can_change_status %}
+ <p><label for="submitted_branch">{% trans "Branch:" %}</label></p>
+ <pre id="submitted_branch" class="editable"></pre>
+ <p><label for="revision">{% trans "Revision:" %}</label></p>
+ <pre id="revision" class="editable"></pre> 
  <p><label for="changedescription">{% trans "Describe the reason it's discarded (optional):" %}</label></p>
  <pre id="changedescription" class="editable">{{close_description}}</pre>
 {% elif close_description %}
