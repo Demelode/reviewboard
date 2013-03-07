@@ -702,12 +702,16 @@ def review_detail(request,
     entries.sort(key=lambda item: item['timestamp'])
 
     close_description = ''
+    submitted_branch = ''
+    revision = ''
 
     if latest_changedesc and 'status' in latest_changedesc.fields_changed:
         status = latest_changedesc.fields_changed['status']['new'][0]
-
+        print status
         if status in (ReviewRequest.DISCARDED, ReviewRequest.SUBMITTED):
             close_description = latest_changedesc.text
+            submitted_branch = latest_changedesc.text
+            revision = latest_changedesc.text
 
     response = render_to_response(
         template_name,
@@ -721,6 +725,8 @@ def review_detail(request,
             'request': request,
             'latest_changedesc': latest_changedesc,
             'close_description': close_description,
+            'submitted_branch': submitted_branch,
+            'revision': revision,
             'PRE_CREATION': PRE_CREATION,
             'issues': issues,
             'has_diffs': (draft and draft.diffset) or len(diffsets) > 0,

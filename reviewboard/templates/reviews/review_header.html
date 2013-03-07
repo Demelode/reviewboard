@@ -8,14 +8,14 @@
  <input type="submit" id="btn-review-request-reopen"
   value="{% trans "Reopen for Review" %}" />
  <p><label for="submitted_branch">{% trans "Branch:" %}</label></p>
- <pre id="submitted_branch" class="editable">{{review_request.submitted_branch}}</pre>
+ <pre id="submitted_branch" class="editable">{{submitted_branch}}</pre>
  <p><label for="revision">{% trans "Revision:" %}</label></p>
- <pre id="revision" class="editable">{{review_request.revision}}</pre> 
+ <pre id="revision" class="editable">{{revision}}</pre> 
  <p><label for="changedescription">{% trans "Describe the submission (optional):" %}</label></p>
  <pre id="changedescription" class="editable">{{close_description}}</pre>
 {% elif close_description %}
- <pre id="branch"></pre>
-  <pre id="revision"></pre>
+ <pre id="submitted_branch">{{submitted_branch}}</pre>
+  <pre id="revision">{{revision}}</pre>
    <pre id="changedescription">{{close_description}}</pre>
 {% endif %}
 </div>
@@ -28,9 +28,9 @@
 {% endif %}
 {% if request.user.pk == review_request.submitter_id or perms.reviews.can_change_status %}
  <p><label for="submitted_branch">{% trans "Branch:" %}</label></p>
- <pre id="submitted_branch" class="editable"></pre>
+ <pre id="submitted_branch" class="editable">{{submitted_branch}}</pre>
  <p><label for="revision">{% trans "Revision:" %}</label></p>
- <pre id="revision" class="editable"></pre> 
+ <pre id="revision" class="editable">{{revision}}</pre> 
  <p><label for="changedescription">{% trans "Describe the reason it's discarded (optional):" %}</label></p>
  <pre id="changedescription" class="editable">{{close_description}}</pre>
 {% elif close_description %}

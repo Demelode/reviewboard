@@ -4562,6 +4562,22 @@ class ReviewRequestDraftResource(WebAPIResource):
                 draft.changedesc.text = data
 
                 modified_objects.append(draft.changedesc)
+        elif field_name == 'submitted_branch':
+            if not draft.changedesc:
+                invalid_entries.append('Submitted branches cannot be used '
+                                       'for drafts of new review requests')
+            else:
+                draft.changedesc.text = data
+
+                modified_objects.append(draft.changedesc)
+        elif field_name == 'revision':
+            if not draft.changedesc:
+                invalid_entries.append('Revisions cannot be used '
+                                       'for drafts of new review requests')
+            else:
+                draft.changedesc.text = data
+
+                modified_objects.append(draft.changedesc)
         else:
             if field_name == 'summary' and '\n' in data:
                 invalid_entries.append('Summary cannot contain newlines')
