@@ -109,9 +109,9 @@ class ReviewRequestAdmin(admin.ModelAdmin):
     fieldsets = (
         (_('General Information'), {
             'fields': ('submitter', 'public', 'status',
-                       'summary', 'description', 'testing_done',
-                       'bugs_closed', 'repository', 'branch', 'changenum',
-                       'time_added')
+                       'summary', 'submitted_branch', 'revision', 'description', 
+                       'testing_done', 'bugs_closed', 'repository', 'branch', 
+                       'changenum', 'time_added')
         }),
         (_('Reviewers'), {
             'fields': ('target_people', 'target_groups'),
