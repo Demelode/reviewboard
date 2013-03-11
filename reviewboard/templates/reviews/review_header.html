@@ -7,6 +7,10 @@
 {% if request.user.pk == review_request.submitter_id or perms.reviews.can_change_status %}
  <input type="submit" id="btn-review-request-reopen"
   value="{% trans "Reopen for Review" %}" />
+ <p><label for="revisiondescription">{% trans "Revision (optional):" %}</label></p>
+ <pre id="revisiondescription" class="editable">{{revision_description}}</pre>
+  <p><label for="branchdescription">{% trans "Branch (optional):" %}</label></p>
+ <pre id="branchdescription" class="editable">{{branch_description}}</pre>
  <p><label for="changedescription">{% trans "Describe the submission (optional):" %}</label></p>
  <pre id="changedescription" class="editable">{{close_description}}</pre>
 {% elif close_description %}
