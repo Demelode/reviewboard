@@ -702,6 +702,11 @@ def review_detail(request,
     entries.sort(key=lambda item: item['timestamp'])
 
     close_description = ''
+    revision_description = ''
+    branch_description = ''
+
+    print latest_changedesc.fields_changed
+    print latest_changedesc.text
 
     if latest_changedesc and 'status' in latest_changedesc.fields_changed:
         status = latest_changedesc.fields_changed['status']['new'][0]
@@ -720,6 +725,8 @@ def review_detail(request,
             'review': pending_review,
             'request': request,
             'latest_changedesc': latest_changedesc,
+            'revision_description': revision_description,
+            'branch_description': branch_description,
             'close_description': close_description,
             'PRE_CREATION': PRE_CREATION,
             'issues': issues,
