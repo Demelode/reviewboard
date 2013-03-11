@@ -702,16 +702,19 @@ def review_detail(request,
     entries.sort(key=lambda item: item['timestamp'])
 
     close_description = ''
-    submitted_branch = ''
-    revision = ''
+    close_submitted_branch = ''
+    close_revision = ''
 
     if latest_changedesc and 'status' in latest_changedesc.fields_changed:
         status = latest_changedesc.fields_changed['status']['new'][0]
-        print status
-        if status in (ReviewRequest.DISCARDED, ReviewRequest.SUBMITTED):
-            close_description = latest_changedesc.text
-            submitted_branch = latest_changedesc.text
-            revision = latest_changedesc.text
+
+        if status in (ReviewRequest.DISCARDED, ReviewRequest.SUBMITTED): 
+            if 'close_description' in latest_changedesc.fields_changed:
+                close_description = latest_changedesc.text
+            elif 'close_submitted_branch' in latest_changedesc.fields_changed:
+                close_submitted_branch = latest_changedesc.fields_changed['close_submitted_branch']['new'][0]
+            elif 'close_revision' in latest_changedesc.fields_changed:
+                close_revision = latest_changedesc.fields_changed['close_revision']['new'][0]
 
     response = render_to_response(
         template_name,
@@ -725,8 +728,8 @@ def review_detail(request,
             'request': request,
             'latest_changedesc': latest_changedesc,
             'close_description': close_description,
-            'submitted_branch': submitted_branch,
-            'revision': revision,
+            'close_submitted_branch': close_submitted_branch,
+            'close_revision': close_revision,
             'PRE_CREATION': PRE_CREATION,
             'issues': issues,
             'has_diffs': (draft and draft.diffset) or len(diffsets) > 0,
