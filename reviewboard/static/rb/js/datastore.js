@@ -1,110 +1,3 @@
-RB.Diff = function(review_request, revision, interdiff_revision) {
-    this.review_request = review_request;
-    this.revision = revision;
-    this.interdiff_revision = interdiff_revision;
-
-    return this;
-};
-
-$.extend(RB.Diff.prototype, {
-    getDiffFragment: function(review_base_url, fileid, filediff_id, revision,
-                              interdiff_revision, file_index, chunk_index,
-                              lines_of_context, onSuccess) {
-        var revisionStr = revision,
-            data = {
-                index: file_index
-            };
-
-        if (interdiff_revision !== null) {
-            revisionStr += "-" + interdiff_revision;
-        }
-
-        if (lines_of_context !== null) {
-            data['lines-of-context'] = lines_of_context;
-        }
-
-        RB.apiCall({
-            url: review_base_url + 'diff/' + revisionStr + '/fragment/' +
-                 filediff_id + '/chunk/' + chunk_index + '/',
-            data: data,
-            type: "GET",
-            dataType: "html",
-            complete: function(res, status) {
-                if (status == "success") {
-                    onSuccess(res.responseText);
-                }
-            }
-        });
-    },
-
-    getDiffFile: function(review_base_url, filediff_id, filediff_revision,
-                          interfilediff_id, interfilediff_revision,
-                          file_index, onSuccess) {
-        var revision_str = filediff_revision;
-
-        if (interfilediff_id) {
-            revision_str += "-" + interfilediff_revision;
-        }
-
-        $.ajax({
-            type: "GET",
-            url: review_base_url + "diff/" + revision_str + "/fragment/" +
-                 filediff_id + "/?index=" + file_index + "&" + AJAX_SERIAL,
-            complete: onSuccess
-        });
-    },
-
-    getErrorString: function(rsp) {
-        if (rsp.err.code == 207) {
-            return 'The file "' + rsp.file + '" (revision ' + rsp.revision +
-                    ') was not found in the repository';
-        }
-
-        return rsp.err.msg;
-    },
-
-    setForm: function(form) {
-        this.form = form;
-    },
-
-    save: function(options) {
-        var self = this;
-
-        options = $.extend(true, {
-            success: function() {},
-            error: function() {}
-        }, options);
-
-        if (self.id != undefined) {
-            options.error("The diff " + self.id + " was already created. " +
-                          "This is a script error. Please report it.");
-            return;
-        }
-
-        if (!self.form) {
-            options.error("No data has been set for this diff. This " +
-                          "is a script error. Please report it.");
-            return;
-        }
-
-        self.review_request.ready(function() {
-            RB.apiCall({
-                url: self.review_request.links.diffs.href,
-                form: self.form,
-                buttons: options.buttons,
-                success: function(rsp) {
-                    if (rsp.stat == "ok") {
-                        options.success(rsp);
-                    } else {
-                        options.error(rsp, rsp.err.msg);
-                    }
-                }
-            });
-        });
-    }
-});
-
-
 RB.ReviewRequest = function(id, prefix, path) {
     this.id = id;
     this.prefix = prefix;
@@ -127,7 +20,9 @@ $.extend(RB.ReviewRequest, {
 $.extend(RB.ReviewRequest.prototype, {
     /* Review request API */
     createDiff: function(revision, interdiff_revision) {
-        return new RB.Diff(this, revision, interdiff_revision);
+        return new RB.Diff({
+            parentObject: this
+        });
     },
 
     createReview: function(review_id) {
@@ -145,7 +40,10 @@ $.extend(RB.ReviewRequest.prototype, {
     },
 
     createScreenshot: function(screenshot_id) {
-        return new RB.Screenshot(this, screenshot_id);
+        return new RB.Screenshot({
+            parentObject: this,
+            id: screenshot_id
+        });
     },
 
     createFileAttachment: function(file_attachment_id) {
@@ -176,6 +74,11 @@ $.extend(RB.ReviewRequest.prototype, {
         }
     },
 
+    // XXX Needed until we move this to Backbone.js.
+    ensureCreated: function(cb) {
+        this.ready(cb);
+    },
+
     setDraftField: function(options) {
         data = {};
         data[options.field] = options.value;
@@ -194,25 +97,17 @@ $.extend(RB.ReviewRequest.prototype, {
         });
     },
 
-    setStarred: function(starred) {
-        var apiType;
-        var path = "/users/" + gUserName + "/watched/review-requests/";
-        var data = {};
+    /*
+     * Marks a review request as starred or unstarred.
+     */
+    setStarred: function(starred, options, context) {
+        var watched = RB.UserSession.instance.watchedReviewRequests;
 
         if (starred) {
-            apiType = "POST";
-            data.object_id = this.id;
+            watched.addImmediately(this, options, context);
         } else {
-            apiType = "DELETE";
-            path += this.id + "/";
+            watched.removeImmediately(this, options, context);
         }
-
-        RB.apiCall({
-            type: apiType,
-            path: path,
-            data: data,
-            success: function() {}
-        });
     },
 
     publish: function(options) {
@@ -557,36 +452,6 @@ $.extend(RB.Review.prototype, {
 });
 
 
-RB.ReviewGroup = function(id) {
-    this.id = id;
-
-    return this;
-};
-
-$.extend(RB.ReviewGroup.prototype, {
-    setStarred: function(starred) {
-        var apiType;
-        var path = "/users/" + gUserName + "/watched/review-groups/";
-        var data = {};
-
-        if (starred) {
-            apiType = "POST";
-            data.object_id = this.id;
-        } else {
-            apiType = "DELETE";
-            path += this.id + "/";
-        }
-
-        RB.apiCall({
-            type: apiType,
-            path: path,
-            data: data,
-            success: function() {}
-        });
-    }
-});
-
-
 RB.ReviewReply = function(review, id) {
     this.review = review;
     this.id = id;
@@ -895,164 +760,6 @@ $.extend(RB.FileAttachment.prototype, {
 
                         if ($.isFunction(onSuccess)) {
                             onSuccess(rsp, rsp.file_attachment);
-                        }
-                    } else if ($.isFunction(onError)) {
-                        onError(rsp, rsp.err.msg);
-                    }
-                }
-            }));
-        });
-    },
-
-    _deleteAndDestruct: function() {
-        $.event.trigger("destroyed", null, this);
-    }
-});
-
-
-RB.Screenshot = function(review_request, id) {
-    this.review_request = review_request;
-    this.id = id;
-    this.caption = null;
-    this.thumbnail_url = null;
-    this.path = null;
-    this.url = null;
-    this.loaded = false;
-
-    return this;
-};
-
-$.extend(RB.Screenshot.prototype, {
-    setFile: function(file) {
-        this.file = file;
-    },
-
-    setForm: function(form) {
-        this.form = form;
-    },
-
-    ready: function(on_done) {
-        if (this.loaded && this.id) {
-            on_done.apply(this, arguments);
-        } else {
-            this._load(on_done);
-        }
-    },
-
-    save: function(options) {
-        options = $.extend(true, {
-            success: function() {},
-            error: function() {}
-        }, options);
-
-        if (this.id) {
-            var data = {};
-
-            if (this.caption != null) {
-                data.caption = this.caption;
-            }
-
-            var self = this;
-
-            this.ready(function() {
-                RB.apiCall({
-                    type: "PUT",
-                    url: self.url,
-                    data: data,
-                    buttons: options.buttons,
-                    success: function(rsp) {
-                        self._loadDataFromResponse(rsp);
-
-                        if ($.isFunction(options.success)) {
-                            options.success(rsp);
-                        }
-                    }
-                });
-            });
-        } else {
-            if (this.form) {
-                this._saveForm(options);
-            } else if (this.file) {
-                this._saveFile(options);
-            } else {
-                options.error("No data has been set for this screenshot. " +
-                              "This is a script error. Please report it.");
-            }
-        }
-    },
-
-    deleteScreenshot: function() {
-        var self = this;
-
-        self.ready(function() {
-            if (self.loaded) {
-                RB.apiCall({
-                    type: "DELETE",
-                    url: self.url,
-                    success: function() {
-                        $.event.trigger("deleted", null, self);
-                        self._deleteAndDestruct();
-                    }
-                });
-            }
-        });
-    },
-
-    _load: function(on_done) {
-        if (!this.id) {
-            on_done.apply(this, arguments);
-            return;
-        }
-
-        var self = this;
-
-        self.review_request.ready(function() {
-            RB.apiCall({
-                type: "GET",
-                url: self.review_request.links.screenshots.href + self.id + "/",
-                success: function(rsp, status) {
-                    if (status != 404) {
-                        self._loadDataFromResponse(rsp);
-                    }
-
-                    on_done.apply(this, arguments);
-                }
-            });
-        });
-    },
-
-    _loadDataFromResponse: function(rsp) {
-        this.id = rsp.screenshot.id;
-        this.caption = rsp.screenshot.caption;
-        this.thumbnail_url = rsp.screenshot.thumbnail_url;
-        this.path = rsp.screenshot.path;
-        this.url = rsp.screenshot.links.self.href;
-        this.loaded = true;
-    },
-
-    _saveForm: function(options) {
-        this._saveApiCall(options.success, options.error, {
-            buttons: options.buttons,
-            form: this.form
-        });
-    },
-
-    _saveFile: function(options) {
-        sendFileBlob(this.file, this._saveApiCall, this, options);
-    },
-
-    _saveApiCall: function(onSuccess, onError, options) {
-        var self = this;
-
-        self.review_request.ready(function() {
-            RB.apiCall($.extend(options, {
-                url: self.review_request.links.screenshots.href,
-                success: function(rsp) {
-                    if (rsp.stat == "ok") {
-                        self._loadDataFromResponse(rsp);
-
-                        if ($.isFunction(onSuccess)) {
-                            onSuccess(rsp, rsp.screenshot);
                         }
                     } else if ($.isFunction(onError)) {
                         onError(rsp, rsp.err.msg);
