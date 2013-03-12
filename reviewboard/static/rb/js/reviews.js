@@ -1054,6 +1054,7 @@ $.fn.reviewCloseCommentEditor = function(type) {
             startOpen: false
         })
         .on("complete", function(e, value) {
+            value = $(this).parent().find(".editable").text();
             gReviewRequest.close({
                 type: type,
                 description: value
