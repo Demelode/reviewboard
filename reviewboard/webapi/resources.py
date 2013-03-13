@@ -6830,14 +6830,14 @@ class ReviewRequestResource(WebAPIResource):
             'revision': {
                 'type': str,
                 'description': 'The revision of the update. Should only be '
-                               'used if the review request have been submitted '
-                               'or discarded.',
+                               'used if the review request have been '
+                               'submitted or discarded.',
             },
             'branch': {
                 'type': str,
                 'description': 'The branch of the update. Should only be '
-                               'used if the review request have been submitted '
-                               'or discarded.',
+                               'used if the review request have been '
+                               'submitted or discarded.',
             },
         },
     )
@@ -6877,7 +6877,8 @@ class ReviewRequestResource(WebAPIResource):
             try:
                 if status in self._close_type_map:
                     review_request.close(self._close_type_map[status],
-                                         request.user, description, revision, branch)
+                                         request.user, description, 
+                                         revision, branch)
                 elif status == 'pending':
                     review_request.reopen(request.user)
                 else:

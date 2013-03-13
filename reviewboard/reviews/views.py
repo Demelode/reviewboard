@@ -704,16 +704,16 @@ def review_detail(request,
     close_description = ''
     revision_description = ''
     branch_description = ''
-    
+
     if latest_changedesc and 'status' in latest_changedesc.fields_changed:
         status = latest_changedesc.fields_changed['status']['new'][0]
 
         if status in (ReviewRequest.DISCARDED, ReviewRequest.SUBMITTED):
-            if review_request.submitted_description != None:
+            if review_request.submitted_description is not None:
                 close_description = review_request.submitted_description
-            if review_request.submitted_revision != None:    
+            if review_request.submitted_revision is not None:
                 revision_description = review_request.submitted_revision
-            if review_request.submitted_branch != None:   
+            if review_request.submitted_branch is not None:
                 branch_description = review_request.submitted_branch
 
     response = render_to_response(

@@ -522,9 +522,12 @@ class ReviewRequest(BaseReviewRequestDetails):
         related_name="review_request",
         blank=True)
 
-    submitted_description = models.CharField(max_length=100, blank=True, null=True)
-    submitted_revision = models.CharField(max_length=20, blank=True, null=True)
-    submitted_branch = models.CharField(max_length=20, blank=True, null=True)
+    submitted_description = models.CharField(max_length=100,
+                                             blank=True, null=True)
+    submitted_revision = models.CharField(max_length=20,
+                                          blank=True, null=True)
+    submitted_branch = models.CharField(max_length=20,
+                                        blank=True, null=True)
 
     # Review-related information
 
@@ -806,7 +809,8 @@ class ReviewRequest(BaseReviewRequestDetails):
     def can_publish(self):
         return not self.public or get_object_or_none(self.draft) is not None
 
-    def close(self, type, user=None, description=None, revision=None, branch=None):
+    def close(self, type, user=None, description=None, revision=None,
+              branch=None):
         """
         Closes the review request. The type must be one of
         SUBMITTED or DISCARDED.
@@ -822,17 +826,15 @@ class ReviewRequest(BaseReviewRequestDetails):
         self.submitted_revision = revision
         self.submitted_branch = branch
 
-        ## Message = described as 'DESCRIPTION' 
-        ##           in revision 'REVISION' on branch 'BRANCH'
         message = ''
 
-        if description != None and description != "":
+        if description is not None and description != "":
             message = message + "described as " + description
-        
-        if revision != None and revision != "":
+
+        if revision is not None and revision != "":
             message = message + " in revision " + revision
-        
-        if branch != None and branch != "":
+
+        if branch is not None and branch != "":
             message = message + " on branch " + branch
 
         if self.status != type:
