@@ -817,7 +817,7 @@ class ReviewRequest(BaseReviewRequestDetails):
 
         if type not in [self.SUBMITTED, self.DISCARDED]:
             raise AttributeError("%s is not a valid close type" % type)
-        print revision
+
         self.submitted_description = description
         self.submitted_revision = revision
         self.submitted_branch = branch
@@ -826,13 +826,13 @@ class ReviewRequest(BaseReviewRequestDetails):
         ##           in revision 'REVISION' on branch 'BRANCH'
         message = ''
 
-        if description != None:
+        if description != None and description != "":
             message = message + "described as " + description
         
-        if revision != None:
+        if revision != None and revision != "":
             message = message + " in revision " + revision
         
-        if branch != None:
+        if branch != None and branch != "":
             message = message + " on branch " + branch
 
         if self.status != type:

@@ -704,7 +704,7 @@ def review_detail(request,
     close_description = ''
     revision_description = ''
     branch_description = ''
-
+    
     if latest_changedesc and 'status' in latest_changedesc.fields_changed:
         status = latest_changedesc.fields_changed['status']['new'][0]
 
