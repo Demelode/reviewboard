@@ -577,6 +577,14 @@ $.extend(RB.ReviewRequest.prototype, {
             data.description = options.description;
         }
 
+        if (options.revision !== undefined) {
+            data.revision = options.revision;
+        }
+
+        if (options.branch !== undefined) {
+            data.branch = options.branch;
+        }
+
         self.ready(function() {
             self._apiCall({
                 type: "PUT",

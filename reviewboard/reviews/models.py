@@ -802,7 +802,7 @@ class ReviewRequest(BaseReviewRequestDetails):
     def can_publish(self):
         return not self.public or get_object_or_none(self.draft) is not None
 
-    def close(self, type, user=None, description=None):
+    def close(self, type, user=None, description=None, revision=None, branch=None):
         """
         Closes the review request. The type must be one of
         SUBMITTED or DISCARDED.
@@ -814,8 +814,25 @@ class ReviewRequest(BaseReviewRequestDetails):
         if type not in [self.SUBMITTED, self.DISCARDED]:
             raise AttributeError("%s is not a valid close type" % type)
 
+        ## Message = described as 'DESCRIPTION' 
+        ##           in revision 'REVISION' on branch 'BRANCH'
+        message = ''
+
+        print description
+        print revision
+        print branch
+        
+        if description != None:
+            message = message + "described as " + description
+        
+        if revision != None:
+            message = message + " in revision " + revision
+        
+        if branch != None:
+            message = message + " on branch " + branch
+
         if self.status != type:
-            changedesc = ChangeDescription(public=True, text=description or "")
+            changedesc = ChangeDescription(public=True, text=message or "")
             changedesc.record_field_change('status', self.status, type)
             changedesc.save()
 
@@ -830,7 +847,7 @@ class ReviewRequest(BaseReviewRequestDetails):
             # Update submission description.
             changedesc = self.changedescs.filter(public=True).latest()
             changedesc.timestamp = timezone.now()
-            changedesc.text = description or ""
+            changedesc.text = message or ""
             changedesc.save()
 
             # Needed to renew last-update.

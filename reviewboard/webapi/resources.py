@@ -6827,10 +6827,22 @@ class ReviewRequestResource(WebAPIResource):
                                'used if the review request have been submitted '
                                'or discarded.',
             },
+            'revision': {
+                'type': str,
+                'description': 'The revision of the update. Should only be '
+                               'used if the review request have been submitted '
+                               'or discarded.',
+            },
+            'branch': {
+                'type': str,
+                'description': 'The branch of the update. Should only be '
+                               'used if the review request have been submitted '
+                               'or discarded.',
+            },
         },
     )
     def update(self, request, status=None, changenum=None, description=None,
-               *args, **kwargs):
+               revision=None, branch=None, *args, **kwargs):
         """Updates the status of the review request.
 
         The only supported update to a review request's resource is to change
@@ -6865,7 +6877,7 @@ class ReviewRequestResource(WebAPIResource):
             try:
                 if status in self._close_type_map:
                     review_request.close(self._close_type_map[status],
-                                         request.user, description)
+                                         request.user, description, revision, branch)
                 elif status == 'pending':
                     review_request.reopen(request.user)
                 else:

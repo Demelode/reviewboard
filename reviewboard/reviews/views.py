@@ -705,9 +705,6 @@ def review_detail(request,
     revision_description = ''
     branch_description = ''
 
-    print latest_changedesc.fields_changed
-    print latest_changedesc.text
-
     if latest_changedesc and 'status' in latest_changedesc.fields_changed:
         status = latest_changedesc.fields_changed['status']['new'][0]
 

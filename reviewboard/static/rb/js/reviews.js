@@ -1054,10 +1054,15 @@ $.fn.reviewCloseCommentEditor = function(type) {
             startOpen: false
         })
         .on("complete", function(e, value) {
-            value = $(this).parent().find(".editable").text();
+            revi = $(this).parent().find(".editable:eq(0)").text();
+            bran = $(this).parent().find(".editable:eq(1)").text();
+            desc = $(this).parent().find(".editable:eq(2)").text();
+
             gReviewRequest.close({
                 type: type,
-                description: value
+                description: desc,
+                revision: revi,
+                branch: bran
             });
         });
 }
