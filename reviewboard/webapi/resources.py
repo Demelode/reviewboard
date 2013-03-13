@@ -6877,7 +6877,7 @@ class ReviewRequestResource(WebAPIResource):
             try:
                 if status in self._close_type_map:
                     review_request.close(self._close_type_map[status],
-                                         request.user, description, 
+                                         request.user, description,
                                          revision, branch)
                 elif status == 'pending':
                     review_request.reopen(request.user)
