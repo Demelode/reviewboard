@@ -709,7 +709,12 @@ def review_detail(request,
         status = latest_changedesc.fields_changed['status']['new'][0]
 
         if status in (ReviewRequest.DISCARDED, ReviewRequest.SUBMITTED):
-            close_description = latest_changedesc.text
+            if review_request.submitted_description != None:
+                close_description = review_request.submitted_description
+            if review_request.submitted_revision != None:    
+                revision_description = review_request.submitted_revision
+            if review_request.submitted_branch != None:   
+                branch_description = review_request.submitted_branch
 
     response = render_to_response(
         template_name,

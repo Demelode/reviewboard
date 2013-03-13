@@ -577,7 +577,7 @@ $.extend(RB.ReviewRequest.prototype, {
             data.description = options.description;
         }
 
-        if (options.revision !== undefined) {
+        if (options.revision !== undefined || options.revision === "") {
             data.revision = options.revision;
         }
 

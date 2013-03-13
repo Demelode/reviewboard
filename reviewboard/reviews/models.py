@@ -522,6 +522,10 @@ class ReviewRequest(BaseReviewRequestDetails):
         related_name="review_request",
         blank=True)
 
+    submitted_description = models.CharField(max_length=100, blank=True, null=True)
+    submitted_revision = models.CharField(max_length=20, blank=True, null=True)
+    submitted_branch = models.CharField(max_length=20, blank=True, null=True)
+
     # Review-related information
 
     # The timestamp representing the last public activity of a review.
@@ -813,15 +817,15 @@ class ReviewRequest(BaseReviewRequestDetails):
 
         if type not in [self.SUBMITTED, self.DISCARDED]:
             raise AttributeError("%s is not a valid close type" % type)
+        print revision
+        self.submitted_description = description
+        self.submitted_revision = revision
+        self.submitted_branch = branch
 
         ## Message = described as 'DESCRIPTION' 
         ##           in revision 'REVISION' on branch 'BRANCH'
         message = ''
 
-        print description
-        print revision
-        print branch
-        
         if description != None:
             message = message + "described as " + description
         
