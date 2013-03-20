@@ -522,11 +522,11 @@ class ReviewRequest(BaseReviewRequestDetails):
         related_name="review_request",
         blank=True)
 
-    submitted_description = models.CharField(max_length=100,
+    submitted_description = models.CharField(max_length=1000,
                                              blank=True, null=True)
-    submitted_revision = models.CharField(max_length=20,
+    submitted_revision = models.CharField(max_length=100,
                                           blank=True, null=True)
-    submitted_branch = models.CharField(max_length=20,
+    submitted_branch = models.CharField(max_length=100,
                                         blank=True, null=True)
 
     # Review-related information
