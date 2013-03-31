@@ -838,7 +838,7 @@ class ReviewRequest(BaseReviewRequestDetails):
             message = message + " and described as '" + description + "'"
 
         message = message + "."
-        
+
         if self.status != type:
             changedesc = ChangeDescription(public=True, text=message or "")
             changedesc.record_field_change('status', self.status, type)
