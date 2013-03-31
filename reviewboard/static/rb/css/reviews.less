@@ -606,12 +606,27 @@
 /****************************************************************************
  * Change Descriptions
  ****************************************************************************/
-#changedescription, #revisiondescription, #branchdescription {
+#changedescription {
   .pre-wrap;
   background-color: #FFFFFF;
   border: 1px #b8b5a0 solid;
   margin: 5px 0 0 0;
   padding: 10px;
+}
+
+#revisiondescription, #branchdescription {
+  .pre-wrap;
+  margin: 0px 0 0 10px;
+  min-width: 75px;
+  float: left;
+  //white-space:nowrap;
+}
+
+.header-banner {
+ display:inline-block;
+ margin-right: 100px;
+ margin-top: 10px;
+ margin-left: -5px;
 }
 
 .changedesc {

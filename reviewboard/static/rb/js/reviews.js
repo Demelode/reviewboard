@@ -1068,6 +1068,28 @@ $.fn.reviewCloseCommentEditor = function(type) {
 }
 
 
+$.fn.reviewCloseCommentAdditionalEditor = function(type) {
+    return this
+        .inlineEditor({
+            editIconPath: STATIC_URLS["rb/images/edit.png"],
+            multiline: false,
+            startOpen: false
+        })
+        .on("complete", function(e, value) {
+
+            revi = $(this).parent().parent().parent().find(".editable:eq(0)").text();
+            bran = $(this).parent().parent().parent().find(".editable:eq(1)").text();
+            desc = $(this).parent().parent().parent().find(".editable:eq(2)").text();
+
+            gReviewRequest.close({
+                type: type,
+                description: desc,
+                revision: revi,
+                branch: bran
+            });
+        });
+}
+
 /*
  * Adds inline editing capabilities to a field for a review request.
  */
@@ -1762,8 +1784,8 @@ $(document).ready(function() {
     });
 
     $("#submitted-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
-    $("#submitted-banner #revisiondescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
-    $("#submitted-banner #branchdescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
+    $("#submitted-banner #revisiondescription.editable").reviewCloseCommentAdditionalEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
+    $("#submitted-banner #branchdescription.editable").reviewCloseCommentAdditionalEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
 
     $("#discard-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_DISCARDED);
 
