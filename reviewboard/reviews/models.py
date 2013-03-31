@@ -826,17 +826,19 @@ class ReviewRequest(BaseReviewRequestDetails):
         self.submitted_revision = revision
         self.submitted_branch = branch
 
-        message = 'Submitted'
+        message = 'This review has been submitted'
 
         if revision is not None and revision != "":
-            message = message + " in revision " + revision
+            message = message + " in revision '" + revision + "'"
 
         if branch is not None and branch != "":
-            message = message + " on branch " + branch
+            message = message + " on branch '" + branch + "'"
 
         if description is not None and description != "":
             message = message + " and described as '" + description + "'"
 
+        message = message + "."
+        
         if self.status != type:
             changedesc = ChangeDescription(public=True, text=message or "")
             changedesc.record_field_change('status', self.status, type)
