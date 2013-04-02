@@ -524,8 +524,8 @@ class ReviewRequest(BaseReviewRequestDetails):
 
     depends_on = models.ManyToManyField('ReviewRequest',
                                         blank=True, null=True,
-                                        verbose_name=_("Dependencies"),
-                                        related_name=_("blocks"))
+                                        verbose_name="Dependencies",
+                                        related_name="blocks")
     # Review-related information
 
     # The timestamp representing the last public activity of a review.
