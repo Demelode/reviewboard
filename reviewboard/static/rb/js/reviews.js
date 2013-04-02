@@ -1077,9 +1077,9 @@ $.fn.reviewCloseCommentAdditionalEditor = function(type) {
         })
         .on("complete", function(e, value) {
 
-            revi = $(this).parent().parent().parent().find(".editable:eq(0)").text();
-            bran = $(this).parent().parent().parent().find(".editable:eq(1)").text();
-            desc = $(this).parent().parent().parent().find(".editable:eq(2)").text();
+            revi = $(this).parent().parent().parent().parent().find(".editable:eq(0)").text();
+            bran = $(this).parent().parent().parent().parent().find(".editable:eq(1)").text();
+            desc = $(this).parent().parent().parent().parent().parent().find(".editable:eq(2)").text();
 
             gReviewRequest.close({
                 type: type,
