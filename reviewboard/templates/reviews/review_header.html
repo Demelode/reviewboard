@@ -9,15 +9,15 @@
   value="{% trans "Reopen for Review" %}" />
   <table>
     <tr class="header-banner">
-     <td><label for="revisiondescription">{% trans "Revision:" %}</label></td>
+     <th><label for="revisiondescription">{% trans "Revision:" %}</label></th>
      <td><pre id="revisiondescription" class="editable">{{revision_description}}</pre></td>
     </tr>
     <tr class="header-banner">
-     <td><label for="branchdescription">{% trans "Branch:" %}</label></td>
+     <th><label for="branchdescription">{% trans "Branch:" %}</label></th>
      <td><pre id="branchdescription" class="editable">{{branch_description}}</pre></td>
     </tr>
   </table>
- <p><label for="changedescription">{% trans "Describe the submission:" %}</label></p>
+ <p><label for="changedescription" class="bold-grey-header">{% trans "Describe the submission:" %}</label></p>
  <pre id="changedescription" class="editable">{{close_description}}</pre>
 {% elif close_description %}
  <pre id="changedescription">{{close_description}}</pre>
