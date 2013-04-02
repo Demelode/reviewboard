@@ -4230,7 +4230,8 @@ class ReviewRequestDraftResource(WebAPIResource):
         },
         'depends_on': {
             'type': str,
-            'description': 'The new list of dependencies of this review request.',
+            'description': 'The new list of dependencies of this review '
+                           'request.',
         },
         'changedescription': {
             'type': str,
@@ -4321,7 +4322,8 @@ class ReviewRequestDraftResource(WebAPIResource):
             },
             'depends_on': {
                 'type': str,
-                'description': 'The new list of dependencies of this review request.',
+                'description': 'The new list of dependencies of this review '
+                               'request.',
             },
             'changedescription': {
                 'type': str,
@@ -4386,7 +4388,8 @@ class ReviewRequestDraftResource(WebAPIResource):
             },
             'depends_on': {
                 'type': str,
-                'description': 'The new list of dependencies of this review request.',
+                'description': 'The new list of dependencies of this review '
+                               'request.',
             },
             'changedescription': {
                 'type': str,
@@ -4561,14 +4564,13 @@ class ReviewRequestDraftResource(WebAPIResource):
                                               local_site=local_site)
                     elif field_name == "depends_on":
                         if local_site is None:
-                            obj = ReviewRequest.objects.get(id=value)
+                            obj = ReviewRequest.objects.get(pk=value)
                         else:
                             obj = ReviewRequest.objects.get(Q(local_id=value) &
                                                             Q(local_site=local_site))
                     target.add(obj)
                 except:
                     invalid_entries.append(value)
-
         elif field_name == 'bugs_closed':
             data = list(self._sanitize_bug_ids(data))
             setattr(draft, field_name, ','.join(data))
@@ -6497,7 +6499,7 @@ class ReviewRequestResource(WebAPIResource):
         },
         'url': {
             'type': str,
-            'description': "The URL to the request's page on the site. ",
+            'description': "The URL to the review request's page on the site. ",
         },
     }
     uri_object_key = 'review_request_id'
