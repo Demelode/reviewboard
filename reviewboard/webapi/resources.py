@@ -4568,6 +4568,9 @@ class ReviewRequestDraftResource(WebAPIResource):
                         else:
                             obj = ReviewRequest.objects.get(Q(local_id=value) &
                                                             Q(local_site=local_site))
+                        # STORING TEMP - THIS DOESN'T WORK FOR SOME REASON
+                        # obj = ReviewRequest.objects.for_id(val=value,
+                        #        local=local_site)
                     target.add(obj)
                 except:
                     invalid_entries.append(value)
@@ -6499,7 +6502,7 @@ class ReviewRequestResource(WebAPIResource):
         },
         'url': {
             'type': str,
-            'description': "The URL to the review request's page on the site. ",
+            'description': "The URL to the review request's page on the site.",
         },
     }
     uri_object_key = 'review_request_id'

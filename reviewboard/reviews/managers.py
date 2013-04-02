@@ -287,6 +287,12 @@ class ReviewRequestManager(ConcurrencyManager):
         else:
             return User.objects.get(username=user_or_username)
 
+    def for_id(self, val, local):
+        if local is None:
+            return ReviewRequest.objects.get(pk=val)
+        else:
+            return ReviewRequest.objects.get(Q(local_id=val) &
+                                            Q(local_site=local))
 
 class ReviewManager(ConcurrencyManager):
     """A manager for Review models.
