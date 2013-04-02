@@ -1084,9 +1084,9 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
     local_site = property(lambda self: self.review_request.local_site)
 
     depends_on = models.ManyToManyField('ReviewRequest',
-                                       blank=True, null=True,
-                                       verbose_name=_("Dependencies"),
-                                       related_name=_("draft_blocks"))
+                                        blank=True, null=True,
+                                        verbose_name="Dependencies",
+                                        related_name="draft_blocks")
 
     # Set this up with a ConcurrencyManager to help prevent race conditions.
     objects = ConcurrencyManager()
