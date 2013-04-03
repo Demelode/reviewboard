@@ -827,9 +827,9 @@ class ReviewRequest(BaseReviewRequestDetails):
         self.submitted_branch = branch
 
         if self.status != type:
-            changedesc = ChangeDescription(public=True, 
+            changedesc = ChangeDescription(public=True,
                                            text=description or "",
-                                           revision=revision  or "", 
+                                           revision=revision or "",
                                            branch=branch or "")
             changedesc.record_field_change('status', self.status, type)
             changedesc.save()
