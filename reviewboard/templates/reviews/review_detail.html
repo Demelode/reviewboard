@@ -283,6 +283,14 @@
    </li>
 {% endfor %}
   </ul>
+{% if entry.changedesc.revision %}
+  <label>{% trans "Revision:" %}</label>
+  <pre class="changedesc-text">{{entry.changedesc.revision|escape}}</pre>
+{% endif %}
+{% if entry.changedesc.branch %}
+  <label>{% trans "Branch:" %}</label>
+  <pre class="changedesc-text">{{entry.changedesc.branch|escape}}</pre>
+{% endif %}
 {% if entry.changedesc.text %}
   <label>{% trans "Description:" %}</label>
   <pre class="changedesc-text">{{entry.changedesc.text|escape}}</pre>
