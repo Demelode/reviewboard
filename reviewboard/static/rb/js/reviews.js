@@ -1054,16 +1054,26 @@ $.fn.reviewCloseCommentEditor = function(type) {
             startOpen: false
         })
         .on("complete", function(e, value) {
-            revi = $(this).parent().find(".editable:eq(0)").text();
-            bran = $(this).parent().find(".editable:eq(1)").text();
-            desc = $(this).parent().find(".editable:eq(2)").text();
+            if (type === 1) {
+                var desc = $(this).parent().find(".editable:eq(0)").text();
 
-            gReviewRequest.close({
-                type: type,
-                description: desc,
-                revision: revi,
-                branch: bran
-            });
+                gReviewRequest.close({
+                    type: type,
+                    description: desc,
+                });
+            } else {
+                var revision = $(this).parent().parent().parent().parent().find(".editable:eq(0)").text();
+                var branch = $(this).parent().parent().parent().parent().find(".editable:eq(1)").text();
+                var desc = $(this).parent().parent().parent().parent().parent().find(".editable:eq(2)").text();
+
+                gReviewRequest.close({
+                    type: type,
+                    description: desc,
+                    revision: revision,
+                    branch: branch
+                });
+            }
+
         });
 }
 
@@ -1077,15 +1087,15 @@ $.fn.reviewCloseCommentAdditionalEditor = function(type) {
         })
         .on("complete", function(e, value) {
 
-            revi = $(this).parent().parent().parent().parent().find(".editable:eq(0)").text();
-            bran = $(this).parent().parent().parent().parent().find(".editable:eq(1)").text();
-            desc = $(this).parent().parent().parent().parent().parent().find(".editable:eq(2)").text();
+            var revision = $(this).parent().parent().parent().parent().find(".editable:eq(0)").text();
+            var branch = $(this).parent().parent().parent().parent().find(".editable:eq(1)").text();
+            var desc = $(this).parent().parent().parent().parent().parent().find(".editable:eq(2)").text();
 
             gReviewRequest.close({
                 type: type,
                 description: desc,
-                revision: revi,
-                branch: bran
+                revision: revision,
+                branch: branch
             });
         });
 }
