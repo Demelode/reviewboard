@@ -292,7 +292,7 @@ class ReviewRequestManager(ConcurrencyManager):
             return ReviewRequest.objects.get(pk=val)
         else:
             return ReviewRequest.objects.get(Q(local_id=val) &
-                                            Q(local_site=local))
+                                             Q(local_site=local))
 
 class ReviewManager(ConcurrencyManager):
     """A manager for Review models.

@@ -4567,7 +4567,7 @@ class ReviewRequestDraftResource(WebAPIResource):
                             obj = ReviewRequest.objects.get(pk=value)
                         else:
                             obj = ReviewRequest.objects.for_id(val=value,
-                               local=local_site)
+                                                               local=local_site)
                     target.add(obj)
                 except:
                     invalid_entries.append(value)
