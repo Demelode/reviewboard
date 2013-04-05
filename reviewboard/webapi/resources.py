@@ -4566,11 +4566,8 @@ class ReviewRequestDraftResource(WebAPIResource):
                         if local_site is None:
                             obj = ReviewRequest.objects.get(pk=value)
                         else:
-                            obj = ReviewRequest.objects.get(Q(local_id=value) &
-                                                            Q(local_site=local_site))
-                        # STORING TEMP - THIS DOESN'T WORK FOR SOME REASON
-                        # obj = ReviewRequest.objects.for_id(val=value,
-                        #        local=local_site)
+                            obj = ReviewRequest.objects.for_id(val=value,
+                               local=local_site)
                     target.add(obj)
                 except:
                     invalid_entries.append(value)

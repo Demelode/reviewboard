@@ -524,7 +524,7 @@ class ReviewRequest(BaseReviewRequestDetails):
 
     depends_on = models.ManyToManyField('ReviewRequest',
                                         blank=True, null=True,
-                                        verbose_name="Dependencies",
+                                        verbose_name=_("Dependencies"),
                                         related_name="blocks")
     # Review-related information
 
@@ -1085,7 +1085,7 @@ class ReviewRequestDraft(BaseReviewRequestDetails):
 
     depends_on = models.ManyToManyField('ReviewRequest',
                                         blank=True, null=True,
-                                        verbose_name="Dependencies",
+                                        verbose_name=_("Dependencies"),
                                         related_name="draft_blocks")
 
     # Set this up with a ConcurrencyManager to help prevent race conditions.
