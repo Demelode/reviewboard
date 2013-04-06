@@ -577,11 +577,11 @@ $.extend(RB.ReviewRequest.prototype, {
             data.description = options.description;
         }
 
-        if (options.revision !== undefined || options.revision === "") {
+        if (options.revision) {
             data.revision = options.revision;
         }
 
-        if (options.branch !== undefined) {
+        if (options.branch) {
             data.branch = options.branch;
         }
 
