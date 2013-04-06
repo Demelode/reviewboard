@@ -712,11 +712,17 @@ def review_detail(request,
             if latest_changedesc.text is not None:
                 close_description = latest_changedesc.text
 
-        if status is ReviewRequest.SUBMITTED:
-            if latest_changedesc.fields_changed['submitted-revision']['new'][0] is not None:
-                revision_description = latest_changedesc.fields_changed['submitted-revision']['new'][0]
-            if latest_changedesc.fields_changed['submitted-branch']['new'][0] is not None:
-                branch_description = latest_changedesc.fields_changed['submitted-branch']['new'][0]
+        if status == ReviewRequest.SUBMITTED:
+            try:
+                if latest_changedesc.fields_changed['submitted-revision']['new'][0]:
+                    revision_description = latest_changedesc.fields_changed['submitted-revision']['new'][0]
+            except:
+                revision_description = ''
+            try:
+                if latest_changedesc.fields_changed['submitted-branch']['new'][0]:
+                    branch_description = latest_changedesc.fields_changed['submitted-branch']['new'][0]
+            except:
+                branch_description = ''
 
     response = render_to_response(
         template_name,

@@ -833,13 +833,13 @@ class ReviewRequest(BaseReviewRequestDetails):
             changedesc = self.changedescs.filter(public=True).latest()
             changedesc.timestamp = timezone.now()
             changedesc.text = description or ""
-            if revision != "":
+            if revision is not None and revision != "":
                 try:
                     old = changedesc.fields_changed['submitted-revision']['new'][0]
                 except:
                     old = "Empty"
                 changedesc.record_field_change('submitted-revision', old, revision)
-            if branch != "":
+            if branch is not None and branch != "":
                 try:
                     old = changedesc.fields_changed['submitted-branch']['new'][0]
                 except:
