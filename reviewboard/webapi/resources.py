@@ -6831,13 +6831,13 @@ class ReviewRequestResource(WebAPIResource):
                 'type': str,
                 'description': 'The revision of the update. Should only be '
                                'used if the review request have been '
-                               'submitted or discarded.',
+                               'submitted.',
             },
             'branch': {
                 'type': str,
                 'description': 'The branch of the update. Should only be '
                                'used if the review request have been '
-                               'submitted or discarded.',
+                               'submitted.',
             },
         },
     )

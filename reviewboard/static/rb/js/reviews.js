@@ -1054,7 +1054,7 @@ $.fn.reviewCloseCommentEditor = function(type) {
             startOpen: false
         })
         .on("complete", function(e, value) {
-            if (type === 1) {
+            if (type === RB.ReviewRequest.CLOSE_DISCARDED) {
                 var desc = $(this).parent().find(".editable:eq(0)").text();
 
                 gReviewRequest.close({
@@ -1794,8 +1794,7 @@ $(document).ready(function() {
     });
 
     $("#submitted-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
-    $("#submitted-banner #revisiondescription.editable").reviewCloseCommentAdditionalEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
-    $("#submitted-banner #branchdescription.editable").reviewCloseCommentAdditionalEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
+    $("#submitted-banner .description").reviewCloseCommentAdditionalEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
 
     $("#discard-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_DISCARDED);
 
