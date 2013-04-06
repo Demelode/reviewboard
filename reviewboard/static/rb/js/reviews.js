@@ -1062,9 +1062,9 @@ $.fn.reviewCloseCommentEditor = function(type) {
                     description: desc,
                 });
             } else {
-                var revision = $(this).parent().parent().parent().parent().find(".editable:eq(0)").text();
-                var branch = $(this).parent().parent().parent().parent().find(".editable:eq(1)").text();
-                var desc = $(this).parent().parent().parent().parent().parent().find(".editable:eq(2)").text();
+                var revision = $(':eq(0)').find("#revision-description").text();
+                var branch = $(':eq(0)').find("#branch-description").text();
+                var desc = $(':eq(0)').find("#changedescription").text();
 
                 gReviewRequest.close({
                     type: type,
@@ -1086,10 +1086,9 @@ $.fn.reviewCloseCommentAdditionalEditor = function(type) {
             startOpen: false
         })
         .on("complete", function(e, value) {
-
-            var revision = $(this).parent().parent().parent().parent().find(".editable:eq(0)").text();
-            var branch = $(this).parent().parent().parent().parent().find(".editable:eq(1)").text();
-            var desc = $(this).parent().parent().parent().parent().parent().find(".editable:eq(2)").text();
+            var revision = $(':eq(0)').find("#revision-description").text();
+            var branch = $(':eq(0)').find("#branch-description").text();
+            var desc = $(':eq(0)').find("#changedescription").text();
 
             gReviewRequest.close({
                 type: type,
