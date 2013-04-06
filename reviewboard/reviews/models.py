@@ -839,7 +839,7 @@ class ReviewRequest(BaseReviewRequestDetails):
                 except:
                     old = "Empty"
                 if old != revision:
-                    changedesc.record_field_change('submitted-revision', 
+                    changedesc.record_field_change('submitted-revision',
                                                    old, revision)
             if branch is not None and branch != "":
                 try:
