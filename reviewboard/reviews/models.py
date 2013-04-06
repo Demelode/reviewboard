@@ -838,13 +838,15 @@ class ReviewRequest(BaseReviewRequestDetails):
                     old = changedesc.fields_changed['submitted-revision']['new'][0]
                 except:
                     old = "Empty"
-                changedesc.record_field_change('submitted-revision', old, revision)
+                if old != revision:
+                    changedesc.record_field_change('submitted-revision', old, revision)
             if branch is not None and branch != "":
                 try:
                     old = changedesc.fields_changed['submitted-branch']['new'][0]
                 except:
                     old = "Empty"
-                changedesc.record_field_change('submitted-branch', old, branch)
+                if old != branch:
+                    changedesc.record_field_change('submitted-branch', old, branch)
             changedesc.save()
 
             # Needed to renew last-update.
