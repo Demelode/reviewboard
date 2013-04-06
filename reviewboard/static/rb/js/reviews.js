@@ -1045,17 +1045,19 @@ $.fn.reviewFormCommentEditor = function(comment) {
  *
  * @param {int} type  1: RB.ReviewRequest.CLOSE_DISCARDED
  *                    2: RB.ReviewRequest.CLOSE_SUBMITTED
+* @param {bool} fieldtype  true: multiline
+ *                         false: non-multiline
  */
-$.fn.reviewCloseCommentEditor = function(type) {
+$.fn.reviewCloseCommentEditor = function(type, fieldtype) {
     return this
         .inlineEditor({
             editIconPath: STATIC_URLS["rb/images/edit.png"],
-            multiline: true,
+            multiline: fieldtype,
             startOpen: false
         })
         .on("complete", function(e, value) {
             if (type === RB.ReviewRequest.CLOSE_DISCARDED) {
-                var desc = $(this).parent().find(".editable:eq(0)").text();
+                var desc = $(':eq(0)').find("#changedescription").text();
 
                 gReviewRequest.close({
                     type: type,
@@ -1074,28 +1076,6 @@ $.fn.reviewCloseCommentEditor = function(type) {
                 });
             }
 
-        });
-}
-
-
-$.fn.reviewCloseCommentAdditionalEditor = function(type) {
-    return this
-        .inlineEditor({
-            editIconPath: STATIC_URLS["rb/images/edit.png"],
-            multiline: false,
-            startOpen: false
-        })
-        .on("complete", function(e, value) {
-            var revision = $(':eq(0)').find("#revision-description").text();
-            var branch = $(':eq(0)').find("#branch-description").text();
-            var desc = $(':eq(0)').find("#changedescription").text();
-
-            gReviewRequest.close({
-                type: type,
-                description: desc,
-                revision: revision,
-                branch: branch
-            });
         });
 }
 
@@ -1792,10 +1772,10 @@ $(document).ready(function() {
         return false;
     });
 
-    $("#submitted-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
-    $("#submitted-banner .description").reviewCloseCommentAdditionalEditor(RB.ReviewRequest.CLOSE_SUBMITTED);
+    $("#submitted-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_SUBMITTED, true);
+    $("#submitted-banner .description").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_SUBMITTED, false);
 
-    $("#discard-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_DISCARDED);
+    $("#discard-banner #changedescription.editable").reviewCloseCommentEditor(RB.ReviewRequest.CLOSE_DISCARDED, true);
 
     if (gUserAuthenticated) {
         if (window["gEditable"]) {
