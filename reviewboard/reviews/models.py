@@ -522,13 +522,6 @@ class ReviewRequest(BaseReviewRequestDetails):
         related_name="review_request",
         blank=True)
 
-    submitted_description = models.CharField(max_length=1000,
-                                             blank=True, null=True)
-    submitted_revision = models.CharField(max_length=100,
-                                          blank=True, null=True)
-    submitted_branch = models.CharField(max_length=100,
-                                        blank=True, null=True)
-
     # Review-related information
 
     # The timestamp representing the last public activity of a review.
@@ -822,15 +815,9 @@ class ReviewRequest(BaseReviewRequestDetails):
         if type not in [self.SUBMITTED, self.DISCARDED]:
             raise AttributeError("%s is not a valid close type" % type)
 
-        self.submitted_description = description
-        self.submitted_revision = revision
-        self.submitted_branch = branch
-
         if self.status != type:
             changedesc = ChangeDescription(public=True,
-                                           text=description or "",
-                                           revision=revision or "",
-                                           branch=branch or "")
+                                           text=description or "")
             changedesc.record_field_change('status', self.status, type)
             changedesc.save()
 
@@ -846,8 +833,18 @@ class ReviewRequest(BaseReviewRequestDetails):
             changedesc = self.changedescs.filter(public=True).latest()
             changedesc.timestamp = timezone.now()
             changedesc.text = description or ""
-            changedesc.revision = revision or ""
-            changedesc.branch = branch or ""
+            if revision != "":
+                try:
+                    old = changedesc.fields_changed['submitted-revision']['new'][0]
+                except:
+                    old = "Empty"
+                changedesc.record_field_change('submitted-revision', old, revision)
+            if branch != "":
+                try:
+                    old = changedesc.fields_changed['submitted-branch']['new'][0]
+                except:
+                    old = "Empty"
+                changedesc.record_field_change('submitted-branch', old, branch)
             changedesc.save()
 
             # Needed to renew last-update.
